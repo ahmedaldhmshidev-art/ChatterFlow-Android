@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Primary -->
+    <color name="primary">#60A5FA</color>
+    <color name="on_primary">#0F172A</color>
+
+
+    <!-- Secondary -->
+    <color name="secondary">#38BDF8</color>
+    <color name="on_secondary">#0F172A</color>
+
+
+    <!-- Background -->
+    <color name="background">#0F172A</color>
+    <color name="on_background">#F8FAFC</color>
+
+
+    <!-- Surface -->
+    <color name="surface">#1E293B</color>
+    <color name="on_surface">#F8FAFC</color>
+
+
+    <!-- Error -->
+    <color name="error">#EF4444</color>
+    <color name="on_error">#FFFFFF</color>
+
+
+    <!-- Outline -->
+    <color name="outline">#475569</color>
+
+
+    <!-- Extra -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+</resources>

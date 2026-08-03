@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/authentication_nav_host"
+    app:startDestination="@id/loginUser"
+    >
+    <fragment
+        android:id="@+id/registerUser"
+        android:name="com.example.chatapp.a_authentication.uiAuth.RegisterUser"
+        android:label="fragment_register_user"
+        tools:layout="@layout/fragment_register_user" >
+        <action
+            android:id="@+id/action_registerUser_to_loginUser"
+            app:destination="@id/loginUser"
+
+            app:popUpTo="@id/registerUser"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginUser"
+        android:name="com.example.chatapp.a_authentication.uiAuth.LoginUser"
+        android:label="fragment_login_user"
+        tools:layout="@layout/fragment_login_user" >
+        <action
+            android:id="@+id/action_loginUser_to_registerUser"
+            app:destination="@id/registerUser"
+
+            app:popUpTo="@id/loginUser"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+</navigation>

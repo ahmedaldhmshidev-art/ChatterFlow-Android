@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".a_authentication.uiAuth.RegisterUser"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_large"
+        >
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_logo_loginId"
+            android:layout_width="@dimen/logo_size"
+            android:layout_height="@dimen/logo_size"
+            android:src="@drawable/ic_user"
+            android:tint="?attr/colorPrimary"
+            android:layout_marginTop="@dimen/radius_medium"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.ChatAppCircle"
+            />
+
+        <TextView
+            android:id="@+id/textTitle_login_id"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/login_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_logo_loginId" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailInput_login_id"
+            style="@style/Widget.ChatApp.TextInput"
+            android:hint="@string/et_email"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle_login_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/spacing_large"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_email_loginId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordInput_login_id"
+            style="@style/Widget.ChatApp.TextInput"
+            android:hint="@string/et_password"
+            app:layout_constraintTop_toBottomOf="@+id/emailInput_login_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/spacing_small"
+            app:endIconMode="password_toggle"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password_loginId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login_id"
+            style="@style/Widget.ChatApp.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/btn_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordInput_login_id" />
+
+        <ProgressBar
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/progress_login_Id"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@+id/btn_login_id"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_login_id"
+            app:layout_constraintStart_toStartOf="@+id/btn_login_id"
+            app:layout_constraintEnd_toEndOf="@+id/btn_login_id"
+            />
+        <TextView
+            android:id="@+id/isHaveAccountText_loginId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/btn_to_register"
+            style="@style/TextAppearance.ChatApp.Body"
+            app:layout_constraintTop_toBottomOf="@+id/btn_login_id"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/radius_medium"
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_nav_to_register_id_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:text="@string/btn_register"
+            app:layout_constraintBottom_toBottomOf="@+id/isHaveAccountText_loginId"
+            app:layout_constraintStart_toEndOf="@+id/isHaveAccountText_loginId"
+            app:layout_constraintTop_toTopOf="@+id/isHaveAccountText_loginId"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

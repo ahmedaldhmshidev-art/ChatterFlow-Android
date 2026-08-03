@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/bg_popup_window_option"
+    >
+
+    <TextView
+        android:id="@+id/tv_date_popupWindowId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2:22 PM 2026"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textSize="12sp"
+        />
+
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_edit_popupWindowId"
+        android:text="@string/edit_menu"
+        android:padding="12dp"
+
+        />
+    <TextView
+        android:id="@+id/tv_copy_popupWidowId"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="@string/copy_menu"
+        android:padding="12dp"
+        />
+    <TextView
+        android:id="@+id/tv_delete_popup_windowId"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_menu"
+        android:padding="12dp"
+        />
+</LinearLayout>

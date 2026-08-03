@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    >
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_bottom_sheet_handle"
+        />
+    <TextView
+        android:id="@+id/tv_DateMenu_bottomSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:gravity="center"
+        android:text="اليوم 10:42 PM"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        />
+    <include
+        android:id="@+id/itemEditId_bottomSheet"
+        layout="@layout/item_message_option_menu"
+        />
+    <include
+        android:id="@+id/item_deleteId_bottomSheet"
+        layout="@layout/item_message_option_menu"
+        />
+    <include
+        android:id="@+id/item_copy_bottomSheet"
+        layout="@layout/item_message_option_menu"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        />
+
+</LinearLayout>

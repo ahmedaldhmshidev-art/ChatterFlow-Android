@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+
+    <style
+        name="TextAppearance.ChatApp.Title"
+        parent="TextAppearance.Material3.HeadlineMedium"/>
+
+
+
+    <style
+        name="TextAppearance.ChatApp.Headline"
+        parent="TextAppearance.Material3.HeadlineSmall"/>
+
+
+
+    <style
+        name="TextAppearance.ChatApp.Body"
+        parent="TextAppearance.Material3.BodyLarge"/>
+
+
+
+    <style
+        name="TextAppearance.ChatApp.Caption"
+        parent="TextAppearance.Material3.BodyMedium"/>
+
+
+
+</resources>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:foreground="?attr/selectableItemBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+   android:minHeight="70dp"
+
+    android:paddingStart="@dimen/spacing_medium"
+    android:paddingEnd="@dimen/spacing_medium"
+    android:paddingTop="@dimen/spacing_small"
+    android:paddingBottom="@dimen/spacing_small"
+    android:background="?attr/selectableItemBackground"
+    >
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_itemListChat_id"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"
+        android:src="@drawable/ic_user_info"
+
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.ChatAppCircle"
+
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <TextView
+        android:id="@+id/tv_name_itemListChat_Id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+
+        android:textAlignment="viewStart"
+
+        android:textColor="?attr/colorOnSurface"
+        style="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/img_itemListChat_id"
+
+        android:text="@string/et_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_Time_itemListChat_id"
+        app:layout_constraintTop_toTopOf="@id/img_itemListChat_id"
+        android:layout_marginStart="@dimen/spacing_medium"
+
+        />
+    <TextView
+        android:id="@+id/tv_Time_itemListChat_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOutline"
+        style="@style/TextAppearance.ChatApp.Caption"
+        app:layout_constraintTop_toTopOf="@id/tv_name_itemListChat_Id"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="@id/tv_name_itemListChat_Id"
+        />
+    <LinearLayout
+        android:id="@+id/layout_lastMessageId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="@+id/tv_name_itemListChat_Id"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_itemListChat_Id"
+        app:layout_constraintEnd_toStartOf="@+id/tv_unread_itemListChat_id"
+        app:layout_constraintBottom_toBottomOf="@id/img_itemListChat_id"
+        android:layout_marginTop="@dimen/spacing_small"
+        >
+        <TextView
+            android:id="@+id/tv_status_itemListChat_id"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+
+            android:tint="?attr/colorPrimary"
+            />
+        <TextView
+            android:id="@+id/tv_message_itemListChat_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_account_description"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:textColor="?attr/colorOutline"
+            style="@style/TextAppearance.ChatApp.Caption"
+            />
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_unread_itemListChat_id"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:gravity="center"
+        android:textColor="?colorOnPrimary"
+        android:background="@drawable/bg_unread_badge"
+        android:visibility="gone"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+<!--<View-->
+<!--android:layout_width="0dp"-->
+<!--android:layout_height="1dp"-->
+<!--android:background="#eaeaea"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/imgUserId_listChat"-->
+<!--app:layout_constraintBottom_toBottomOf="@id/imgUserId_listChat"-->
+<!--app:layout_constraintStart_toStartOf="@+id/imgUserId_listChat"-->
+<!--app:layout_constraintEnd_toEndOf="@+id/tvUnreadCountId_listChat"-->
+<!--    />-->
+    <!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="12dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        >-->
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginEnd="12dp"-->
+<!--            android:id="@+id/img_profile_listChatId_cardItem"-->
+<!--            app:strokeWidth="0.5dp"-->
+<!--            android:src="@mipmap/ic_launcher"-->
+<!--            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"-->
+<!--            />-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:orientation="vertical"-->
+<!--            >-->
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="17dp"-->
+<!--                />-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:layoutDirection="locale"-->
+<!--                >-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tvNameListChatId_cardItem"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:hint="AHMED"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:gravity="start"-->
+<!--                    android:layoutDirection="locale"-->
+<!--                    android:textAlignment="viewStart"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tvDate_listChatId_cardItem"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="10:12"-->
+<!--                    android:textSize="11sp"-->
+<!--                    android:textColor="@color/primary"-->
+
+
+<!--                    />-->
+<!--            </LinearLayout>-->
+<!--            <TextView-->
+<!--                android:id="@+id/tvLastMessage_listChatId_cardItem"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="مرحبا كيف حالك"-->
+<!--                android:gravity="start"-->
+<!--                android:textAlignment="viewStart"-->
+
+<!--                android:layoutDirection="locale"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:textSize="12sp"-->
+<!--                android:maxLines="2"-->
+<!--                android:ellipsize="end"-->
+<!--                />-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:gravity="end"-->
+<!--                android:orientation="horizontal"-->
+<!--                >-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:paddingHorizontal="8dp"-->
+<!--                    android:paddingVertical="3dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:background="@drawable/bg_unread_badge"-->
+
+<!--                    >-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_countMessageNumber_listChatId_cardItem"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="2"-->
+<!--                        android:textColor="@color/white1"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:fontWeight="500"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        />-->
+<!--                </LinearLayout>-->
+
+<!--            </LinearLayout>-->
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginTop="2dp"-->
+<!--                android:background="@drawable/line_view_list_chat"-->
+<!--                />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
+<!--</FrameLayout>-->
+
+
+
+
+
+
+
+
+
+
+

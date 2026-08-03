@@ -1,0 +1,130 @@
+<resources>
+
+    <!-- App -->
+    <string name="app_name">ChatterFlow</string>
+
+    <!-- Authentication -->
+    <string name="title_create_account">Create Account</string>
+    <string name="title_login">Login</string>
+
+    <string name="create_account">Create Account</string>
+    <string name="login_account">Welcome Back</string>
+    <string name="create_account_description">Create your account to start chatting.</string>
+
+    <string name="et_name">Name</string>
+    <string name="et_email">Email</string>
+    <string name="et_password">Password</string>
+
+    <string name="btn_register">Register</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_logout">Logout</string>
+
+    <string name="btn_to_login">Already have an account?</string>
+    <string name="btn_to_register">Don\'t have an account?</string>
+
+    <!-- Users -->
+    <string name="select_user">Select User</string>
+    <string name="search_user">Search Users</string>
+    <string name="no_user_found">No users found</string>
+
+    <!-- Chat -->
+    <string name="typing">Typing...</string>
+    <string name="typing_message">Typing a message...</string>
+
+    <string name="msg_send">Sent message</string>
+    <string name="msg_receiver">Received message</string>
+
+    <string name="edited">Edited</string>
+
+    <string name="item_date">Yesterday</string>
+
+    <!-- Toolbar -->
+    <string name="search_menu_listChat">Search Chats</string>
+    <string name="account_menu_listChat">Account</string>
+    <string name="settings_menu_listChat">Settings</string>
+    <string name="logout_menu_listChat">Logout</string>
+
+    <!-- Account -->
+    <string name="account">Account</string>
+    <string name="account_uid">UID</string>
+    <string name="account_email">email@example.com</string>
+
+    <string name="account_user_info">User Information</string>
+    <string name="account_btn_edit">Edit Profile</string>
+    <string name="account_btn_change_password">Change Password</string>
+
+    <string name="account_user_txt_info">
+        Hi! I\'m an Android developer using Kotlin.
+    </string>
+
+    <!-- Menu -->
+    <string name="copy_menu">Copy</string>
+    <string name="edit_menu">Edit</string>
+    <string name="delete_menu">Delete</string>
+    <string name="refresh_menu">Refresh</string>
+    <string name="information">Information</string>
+    <string name="remove_menu">Clear Chat</string>
+
+    <!-- Success -->
+    <string name="copy_success">Message copied successfully.</string>
+    <string name="edit_success">Message edited successfully.</string>
+    <string name="delete_success">Message deleted successfully.</string>
+    <string name="remove_success">Chat cleared successfully.</string>
+
+    <!-- Dialog -->
+    <string name="title_delete_message">Delete Message</string>
+    <string name="title_removeAll_message">Clear Chat</string>
+
+    <string name="btn_yes_delete_message">Delete</string>
+    <string name="btn_cancel_delete_message">Cancel</string>
+
+    <string name="delete_message">
+        Are you sure you want to delete this message?
+    </string>
+
+    <string name="removeAll_message">
+        Are you sure you want to clear this chat?
+    </string>
+
+    <string name="logout_dialog_message">
+        Are you sure you want to log out?
+    </string>
+
+    <!-- Errors -->
+    <string name="error_email_already_exists_AuthError">
+        This email is already registered.
+    </string>
+
+    <string name="error_weak_password_AuthError">
+        Password is too weak.
+    </string>
+
+    <string name="error_invalid_credentials_AuthError">
+        Invalid email or password.
+    </string>
+
+    <string name="error_network_error_AuthError">
+        Network connection unavailable.
+    </string>
+
+    <string name="error_unknown_error_AuthError">
+        Something went wrong.
+    </string>
+
+    <string name="error_empty_password_validError">
+        Please enter your password.
+    </string>
+
+    <string name="error_empty_email_validError">
+        Please enter your email.
+    </string>
+
+    <string name="error_invalid_email_validError">
+        Please enter a valid email address.
+    </string>
+
+    <string name="error_empty_name_validError">
+        Please enter your name.
+    </string>
+
+</resources>

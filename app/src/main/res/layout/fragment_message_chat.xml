@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".e_messageChatId.ui_.MessageChat"
+    android:background="@color/background"
+    >
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_msg_id"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/back_toolbar_chat"
+        style="@style/Widget.AppCompat.ActionBar"
+        app:titleCentered="false"
+        app:menu="@menu/menu_chat_message"
+        app:titleTextColor="?attr/colorOnBackground"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_msg_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_medium"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_msg_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_typing_msg_id"
+    />
+    <TextView
+        android:id="@+id/tv_typing_msg_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/typing"
+        android:textColor="?attr/colorPrimary"
+        android:paddingHorizontal="@dimen/spacing_medium"
+        android:paddingBottom="@dimen/spacing_small"
+        style="@style/TextAppearance.ChatApp.Body"
+        app:layout_constraintBottom_toTopOf="@+id/card_msg_id"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        />
+    <ProgressBar
+        android:id="@+id/progress_msg_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <com.google.android.material.card.MaterialCardView
+       android:id="@+id/card_msg_id"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_medium"
+
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="@dimen/radius_large"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
+            android:paddingStart="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            >
+
+            <!-- Emoji Button -->
+
+            <ImageButton
+                android:id="@+id/buttonEmoji_msg_id"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_emoticon_"
+                android:visibility="gone"
+
+                />
+
+            <!-- Cancel Edit -->
+
+            <ImageButton
+                android:id="@+id/btn_Cancel_Edit_msg_id"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close_edit"
+                android:visibility="gone"/>
+
+            <!-- Message -->
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/etWrightMessageId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/typing_message"
+                android:inputType="textMultiLine"
+                android:gravity="start|center_vertical"
+                android:minLines="1"
+                android:maxLines="5"
+                android:maxLength="1000"
+                android:imeOptions="actionSend"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_small"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOutline"
+                android:textSize="16sp"/>
+
+            <!-- Send Button -->
+            <com.google.android.material.button.MaterialButton
+
+                android:id="@+id/btnSend_msg_id"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="48dp"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="24dp"
+                app:icon="@drawable/ic_send_"
+                app:iconTint="?attr/colorOnPrimary"
+                app:iconGravity="textStart"
+                app:rippleColor="?attr/colorPrimary"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

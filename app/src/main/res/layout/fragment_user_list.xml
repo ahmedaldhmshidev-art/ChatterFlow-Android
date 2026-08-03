@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".b_user_list.ui_user_list.UserList"
+    >
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarUserListId"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        style="@style/Widget.AppCompat.ActionBar"
+        app:title="@string/select_user"
+        app:navigationIcon="@drawable/back_toolbar_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbarDivider_userList_id"
+        app:dividerThickness="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarUserListId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:dividerColor="?attr/colorOutline"
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout_userList_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/ic_search_"
+        app:startIconTint="?attr/colorPrimary"
+        app:hintEnabled="false"
+        style="@style/Widget.ChatApp.TextInput"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarDivider_userList_id"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/radius_medium"
+        android:layout_marginEnd="@dimen/radius_medium"
+        android:layout_marginTop="@dimen/radius_small"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_search_userList_id"
+            android:inputType="text"
+            android:gravity="center_horizontal"
+            android:paddingTop="12dp"
+            android:hint="@string/search_user"
+            android:paddingBottom="12dp"
+            android:imeOptions="actionSearch"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvUserListId"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_medium"
+        app:layout_constraintTop_toBottomOf="@+id/searchLayout_userList_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressUserListId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <include
+        android:id="@+id/layout_empty_user_List"
+        layout="@layout/empty_state"
+        android:visibility="gone"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+    />
+</androidx.constraintlayout.widget.ConstraintLayout>

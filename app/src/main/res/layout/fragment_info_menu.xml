@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".e_messageChatId.info.ui.InfoFragmentMenu">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_info_id"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        app:title="@string/information"
+        app:navigationIcon="@drawable/back_toolbar_chat"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:titleTextAppearance="@style/TextAppearance.ChatApp.Title."
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scrollView_info_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_info_id"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgUser_info_id"
+                android:layout_width="@dimen/img_account"
+                android:layout_height="@dimen/img_account"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_user"
+                android:tint="?attr/colorPrimary"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.ChatAppCircle"/>
+            <TextView
+                android:id="@+id/tvName_info_id"
+                style="@style/TextAppearance.ChatApp.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center"
+
+                android:textColor="?attr/colorOnBackground"
+                />
+            <TextView
+                android:id="@+id/tvEmail_info_id"
+                style="@style/TextAppearance.ChatApp.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/account_email"
+                android:textColor="?attr/colorOnBackground"
+                />
+
+            <TextView
+                android:id="@+id/tvUid_info_id"
+                style="@style/TextAppearance.ChatApp.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:gravity="center"
+                android:text="@string/account_uid"
+                android:textColor="?attr/colorOutline"
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="@dimen/radius_large"
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutline"
+                app:strokeWidth="1dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_medium">
+
+                    <TextView
+                        style="@style/TextAppearance.ChatApp.Title."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/account_user_info"
+                        android:textColor="?attr/colorOnSurface"
+                        />
+                    <TextView
+                        android:id="@+id/tv_bio_info_id"
+                        style="@style/TextAppearance.ChatApp.Body."
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:textColor="?attr/colorOnSurface"
+                        />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- Actions Card -->
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+
+        android:id="@+id/progress_info_id"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:indeterminateTint="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

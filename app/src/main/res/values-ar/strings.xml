@@ -1,0 +1,131 @@
+<resources>
+
+    <!-- التطبيق -->
+    <string name="app_name">ChatterFlow</string>
+
+    <!-- تسجيل الدخول -->
+    <string name="title_create_account">إنشاء حساب</string>
+    <string name="title_login">تسجيل الدخول</string>
+
+    <string name="create_account">إنشاء حساب</string>
+    <string name="login_account">مرحبًا بعودتك</string>
+    <string name="create_account_description">
+        أنشئ حسابك لبدء الدردشة.
+    </string>
+
+    <string name="et_name">الاسم</string>
+    <string name="et_email">البريد الإلكتروني</string>
+    <string name="et_password">كلمة المرور</string>
+
+    <string name="btn_register">إنشاء حساب</string>
+    <string name="btn_login">تسجيل الدخول</string>
+    <string name="btn_logout">تسجيل الخروج</string>
+
+    <string name="btn_to_login">لديك حساب بالفعل؟</string>
+    <string name="btn_to_register">ليس لديك حساب؟</string>
+
+    <!-- المستخدمون -->
+    <string name="select_user">اختر مستخدمًا</string>
+    <string name="search_user">ابحث عن مستخدم</string>
+    <string name="no_user_found">لم يتم العثور على مستخدمين</string>
+
+    <!-- الدردشة -->
+    <string name="typing">يكتب الآن...</string>
+    <string name="typing_message">جارٍ كتابة رسالة...</string>
+
+    <string name="msg_send">رسالة مرسلة</string>
+    <string name="msg_receiver">رسالة مستلمة</string>
+
+    <string name="edited">تم التعديل</string>
+
+    <string name="item_date">أمس</string>
+
+    <!-- الحساب -->
+    <string name="account">الحساب</string>
+    <string name="account_uid">المعرّف</string>
+    <string name="account_email">example@email.com</string>
+
+    <string name="account_user_info">معلومات المستخدم</string>
+    <string name="account_btn_edit">تعديل الملف الشخصي</string>
+    <string name="account_btn_change_password">تغيير كلمة المرور</string>
+
+    <string name="account_user_txt_info">
+        مرحبًا، أنا مطور تطبيقات أندرويد باستخدام Kotlin.
+    </string>
+
+    <!-- القائمة -->
+    <string name="copy_menu">نسخ</string>
+    <string name="edit_menu">تعديل</string>
+    <string name="delete_menu">حذف</string>
+    <string name="refresh_menu">تحديث</string>
+    <string name="information">معلومات</string>
+    <string name="remove_menu">مسح المحادثة</string>
+
+    <string name="search_menu_listChat">البحث في المحادثات</string>
+    <string name="account_menu_listChat">الحساب</string>
+    <string name="settings_menu_listChat">الإعدادات</string>
+    <string name="logout_menu_listChat">تسجيل الخروج</string>
+
+    <!-- رسائل النجاح -->
+    <string name="copy_success">تم نسخ الرسالة بنجاح.</string>
+    <string name="edit_success">تم تعديل الرسالة بنجاح.</string>
+    <string name="delete_success">تم حذف الرسالة بنجاح.</string>
+    <string name="remove_success">تم مسح المحادثة بنجاح.</string>
+
+    <!-- الحوارات -->
+    <string name="title_delete_message">حذف الرسالة</string>
+    <string name="title_removeAll_message">مسح المحادثة</string>
+
+    <string name="btn_yes_delete_message">حذف</string>
+    <string name="btn_cancel_delete_message">إلغاء</string>
+
+    <string name="delete_message">
+        هل أنت متأكد من حذف هذه الرسالة؟
+    </string>
+
+    <string name="removeAll_message">
+        هل أنت متأكد من مسح جميع رسائل هذه المحادثة؟
+    </string>
+
+    <string name="logout_dialog_message">
+        هل أنت متأكد من تسجيل الخروج؟
+    </string>
+
+    <!-- الأخطاء -->
+    <string name="error_email_already_exists_AuthError">
+        البريد الإلكتروني مستخدم بالفعل.
+    </string>
+
+    <string name="error_weak_password_AuthError">
+        كلمة المرور ضعيفة.
+    </string>
+
+    <string name="error_invalid_credentials_AuthError">
+        البريد الإلكتروني أو كلمة المرور غير صحيحة.
+    </string>
+
+    <string name="error_network_error_AuthError">
+        لا يوجد اتصال بالإنترنت.
+    </string>
+
+    <string name="error_unknown_error_AuthError">
+        حدث خطأ غير متوقع.
+    </string>
+
+    <string name="error_empty_password_validError">
+        يرجى إدخال كلمة المرور.
+    </string>
+
+    <string name="error_empty_email_validError">
+        يرجى إدخال البريد الإلكتروني.
+    </string>
+
+    <string name="error_invalid_email_validError">
+        يرجى إدخال بريد إلكتروني صحيح.
+    </string>
+
+    <string name="error_empty_name_validError">
+        يرجى إدخال الاسم.
+    </string>
+
+</resources>
