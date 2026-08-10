@@ -2,22 +2,14 @@ package com.example.chatapp.e_messageChatId.ui_
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -34,8 +26,6 @@ import com.example.chatapp.d_chat_Document.viewModel_document.ChatDocumentInfoVi
 import com.example.chatapp.d_chat_Document.viewModel_document.ChatDocumentViewModelFactory
 import com.example.chatapp.databinding.FragmentMessageChatBinding
 import com.example.chatapp.e_messageChatId.a_model_msg.MessageText
-import com.example.chatapp.e_messageChatId.info.ui.InfoFragmentMenu
-import com.example.chatapp.e_messageChatId.info.ui.InfoFragmentMenuArgs
 import com.example.chatapp.e_messageChatId.ui_.menu.ActionMessage
 import com.example.chatapp.e_messageChatId.stateAndEvent_msg.ChatScreenState
 import com.example.chatapp.e_messageChatId.stateAndEvent_msg.MessageEvent
@@ -47,7 +37,6 @@ import com.example.chatapp.utils.buildChatItem
 import com.example.chatapp.e_messageChatId.viewModel_msg.MessageViewModel
 import com.example.chatapp.e_messageChatId.viewModel_msg.MessageViewModelFactory
 import com.example.chatapp.utils.showIconMenu
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -59,7 +48,8 @@ class MessageChat : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentMessageChatBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -96,7 +86,6 @@ class MessageChat : Fragment() {
             removeAllMessageUseCase = requireContext().appContainer.removeAllMessageUseCase
         )
     }
-
 
 
     // --------------------------- التنفيذ يبدا
@@ -147,30 +136,31 @@ class MessageChat : Fragment() {
                     showChatInfo()
                     true
                 }
+
                 R.id.remove_menu_chatId -> {
                     showRemoveDialog()
                     true
                 }
+
                 else -> false
             }
         }
     }
 
-    private fun showChatInfo(){
-
-        val action = MessageChatDirections.actionMessageChatToInfoFragmentMenu(otherUserId = otherUserId)
+    private fun showChatInfo() {
+        val action =
+            MessageChatDirections.actionMessageChatToInfoFragmentMenu(otherUserId = otherUserId)
         findNavController().navigate(action)
     }
 
-    private fun showRemoveDialog(){
-      val dialog =  MaterialAlertDialogBuilder(requireContext())
+    private fun showRemoveDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.title_removeAll_message))
             .setMessage(getString(R.string.removeAll_message))
 
             .setNegativeButton(
-                getString(R.string.btn_cancel_delete_message)
-            ){
-             dialog ,_ ->
+                getString(R.string.btn_cancel)
+            ) { dialog, _ ->
                 dialog.dismiss()
             }
 //          .show()
@@ -178,10 +168,9 @@ class MessageChat : Fragment() {
 //            dialog.getButton(AlertDialog.BUTTON_POSITIVE) .setTextColor(MaterialColors.getColor(dialog.context,com.google.android.material, androidx.appcompat.R.attr.colorError , Color.RED))
             .setPositiveButton(
                 getString(R.string.btn_yes_delete_message)
-            ){
-                _ ,_ ->
+            ) { _, _ ->
                 msgViewModel.removeAllMessage(
-                    chatId = chatId , currentUserId = currentUserUid
+                    chatId = chatId, currentUserId = currentUserUid
                 )
             }
             .show()
@@ -189,13 +178,19 @@ class MessageChat : Fragment() {
 
 
     private fun initArguments() {
-        currentUserUid = requireContext().appContainer.sessionManager.currentUserId ?: return  // اذا لم يجد مستخدم لا تدخل الشات return
+        currentUserUid = requireContext().appContainer.sessionManager.currentUserId
+            ?: return  // اذا لم يجد مستخدم لا تدخل الشات return
         otherUserId = args.receiverId  //  هو uid الشخص الذي تم الضغط عل محادثتة
-        chatId = ChatUtilsUid.generateChatId(currentUserUid = currentUserUid, otherUserUid = otherUserId)
+        chatId =
+            ChatUtilsUid.generateChatId(currentUserUid = currentUserUid, otherUserUid = otherUserId)
     }
+
     //انشا المحادثة عند الضغط عل المستخدم
     private fun createChatDocument() {
-        chatDocumentViewModel.createChatDocumentIfNotExist(chatId = chatId, participants = listOf(currentUserUid, otherUserId))
+        chatDocumentViewModel.createChatDocumentIfNotExist(
+            chatId = chatId,
+            participants = listOf(currentUserUid, otherUserId)
+        )
     }
 
     private fun setupSendButton() {
@@ -228,8 +223,7 @@ class MessageChat : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED)
             {
-                msgViewModel.chatState.collect {
-                    state ->
+                msgViewModel.chatState.collect { state ->
                     binding.progressMsgId.visibility =
                         if (state.isLoading) View.VISIBLE else View.GONE
 
@@ -242,12 +236,14 @@ class MessageChat : Fragment() {
     private fun observeSendState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED)
-            { msgViewModel.sendState.collect { state ->
+            {
+                msgViewModel.sendState.collect { state ->
                     when (state) {
                         SendState.Idle -> Unit
                         SendState.Sending -> {
 //                            binding.btnSendMessageId.isEnabled = false
                         }
+
                         SendState.Success -> {
 //                            binding.btnSendMessageId.isEnabled = true
 //                            binding.etWrightMessageId.text?.clear()
@@ -255,7 +251,8 @@ class MessageChat : Fragment() {
 
                             chatDocumentViewModel.stopOnTyping(
                                 chatId = chatId, currentUserUid
-                            ) }
+                            )
+                        }
                     }
                 }
             }
@@ -298,40 +295,46 @@ class MessageChat : Fragment() {
 
     private fun setupToolbar() {
 
-        binding.toolbarMsgId.setOnClickListener{
+        binding.toolbarMsgId.setOnClickListener {
 
-            val action = MessageChatDirections.actionMessageChatToInfoFragmentMenu(otherUserId = otherUserId)
+            val action =
+                MessageChatDirections.actionMessageChatToInfoFragmentMenu(otherUserId = otherUserId)
             findNavController().navigate(action)
         }
         binding.toolbarMsgId.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
+
     // مراقبة الاحداث error ,  success
-    private fun observerEvent(){
+    private fun observerEvent() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                msgViewModel.event.collect{ event ->
-                    when(event){
-                        is MessageEvent.ShowError ->{
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                msgViewModel.event.collect { event ->
+                    when (event) {
+                        is MessageEvent.ShowError -> {
                             showToast(message = event.messageError)
                         }
-                        is MessageEvent.EditSuccess->{
+
+                        is MessageEvent.EditSuccess -> {
                             exitEditMode()
                             binding.root.showSnackBar(
                                 getString(R.string.edit_success)
                             )
                         }
-                        MessageEvent.DeleteSuccess->{
+
+                        MessageEvent.DeleteSuccess -> {
                             binding.root.showSnackBar(
                                 getString(R.string.delete_success)
                             )
                         }
-                        is MessageEvent.CopyMessage ->{
-                            Log.d("copyToClipboard","copyToClipboardEvent:${event.copyText}")
+
+                        is MessageEvent.CopyMessage -> {
+                            Log.d("copyToClipboard", "copyToClipboardEvent:${event.copyText}")
                             copyToClipboard(event.copyText)
                         }
-                        is MessageEvent.RemoveAllMessageSuccess->{
+
+                        is MessageEvent.RemoveAllMessageSuccess -> {
                             binding.root.showSnackBar(getString(R.string.remove_success))
                         }
                     }
@@ -341,18 +344,17 @@ class MessageChat : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        messageAdapter = MessageAdapter(currentUserId = currentUserUid){
-            action ->
+        messageAdapter = MessageAdapter(currentUserId = currentUserUid) { action ->
             // استقبال الرسالة التي تم الضغط عليها من اجل عمل لها تعديل او حذف
-             when(action) {
-                 is ActionMessage.ShowMenu -> {
-                     showMessageMenu(
-                         message = action.message,
-                         owner = action.owner,
-                         anchorView = action.anchorView
-                     )
-                 }
-             }
+            when (action) {
+                is ActionMessage.ShowMenu -> {
+                    showMessageMenu(
+                        message = action.message,
+                        owner = action.owner,
+                        anchorView = action.anchorView
+                    )
+                }
+            }
         }
         val layoutManager = LinearLayoutManager(requireContext())
         binding.rvMsgId.apply {
@@ -360,9 +362,10 @@ class MessageChat : Fragment() {
             adapter = messageAdapter
             setHasFixedSize(true)
 
-        // نعمل مستمع للقائمة من اجل عند وصول رسالة تنزل القائمة تلقائي
+            // نعمل مستمع للقائمة من اجل عند وصول رسالة تنزل القائمة تلقائي
             addOnScrollListener(
-                object : RecyclerView.OnScrollListener() {  // انشي مستمع او مراقب لتحرك recyclerView
+                object :
+                    RecyclerView.OnScrollListener() {  // انشي مستمع او مراقب لتحرك recyclerView
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
                         val lastVisible = layoutManager.findLastVisibleItemPosition()
@@ -372,9 +375,10 @@ class MessageChat : Fragment() {
             )
         }
     }
-// هنا عند الضغط عل رسالة تم عرض اخيارات من تصميم xml
+
+    // هنا عند الضغط عل رسالة تم عرض اخيارات من تصميم xml
     private fun showMessageMenu(
-        message:MessageText, owner: MessageOwner , anchorView: View
+        message: MessageText, owner: MessageOwner, anchorView: View
     ) {
 //        // عرض المنيو بجنب الرسالة
 //        PopupWindowOption(
@@ -386,7 +390,7 @@ class MessageChat : Fragment() {
 //        ).showPopupWindow()
 //
 
-    // عرض منيو من الاسفل
+        // عرض منيو من الاسفل
 //    BottomSheetMenuMsg.newInstance(message, owner)
 //        .setOnAction(::onMessageMenuAction)
 //        .show(parentFragmentManager, "MessageMenu")
@@ -395,47 +399,50 @@ class MessageChat : Fragment() {
 //     عرض المنيو العادي
         val popupMenu = PopupMenu(
 //            ContextThemeWrapper(
-                requireContext() ,
+            requireContext(),
 //                com.google.android.material.R.style.ThemeOverlay_Material3_DayNight_SideSheetDialog
 //            ),
-                anchorView,
+            anchorView,
         )
 
-        when(owner){
+        when (owner) {
             MessageOwner.ME -> { // اذا كانت الرسالة رسالتي يتم عرض الخيارات الخاصة بي
-                popupMenu.menuInflater.inflate(R.menu.menu_my_message , popupMenu.menu)
+                popupMenu.menuInflater.inflate(R.menu.menu_my_message, popupMenu.menu)
             }
-            MessageOwner.OTHER ->{ // اذا الرسالة لطرف الاخر يتم عرض الخيارات الخاصة بة
-                popupMenu.menuInflater.inflate(R.menu.menu_other_message , popupMenu.menu)
+
+            MessageOwner.OTHER -> { // اذا الرسالة لطرف الاخر يتم عرض الخيارات الخاصة بة
+                popupMenu.menuInflater.inflate(R.menu.menu_other_message, popupMenu.menu)
             }
         }
-    showIconMenu(menu = popupMenu.menu)
+        showIconMenu(menu = popupMenu.menu)
 
 
 //     هنا عند الضغط عل احد الخيارات تحدد ماذا نعمل
-        popupMenu.setOnMenuItemClickListener {
-            item ->
+        popupMenu.setOnMenuItemClickListener { item ->
 
-            when(item.itemId){
-                R.id.action_edite_id ->{
+            when (item.itemId) {
+                R.id.action_edite_id -> {
                     onMessageMenuAction(
-                        MessageMenuAction.Edit(message=message)
+                        MessageMenuAction.Edit(message = message)
                     )
                     true
                 }
-                R.id.action_delete_id ->{
+
+                R.id.action_delete_id -> {
 
                     onMessageMenuAction(
                         MessageMenuAction.Delete(message = message)
                     )
                     true
                 }
+
                 R.id.action_copy_id -> {
                     onMessageMenuAction(
-                        MessageMenuAction.Copy(text=message.messageText)
+                        MessageMenuAction.Copy(text = message.messageText)
                     )
                     true
                 }
+
                 else -> false
             }
         }
@@ -444,9 +451,8 @@ class MessageChat : Fragment() {
     }
 
 
-
     // معلجة الاحداث التي تم الضغط عليها
-    private fun onMessageMenuAction(action:MessageMenuAction) {
+    private fun onMessageMenuAction(action: MessageMenuAction) {
         when (action) {
             is MessageMenuAction.Edit -> {
                 enterEditMode(action.message)
@@ -461,22 +467,25 @@ class MessageChat : Fragment() {
             }
         }
     }
+
     private fun dialogDeleteConfirm(message: MessageText) {
 
         MaterialAlertDialogBuilder(requireContext()) // كائن من مكتبة يعرض مربع حوار
             .setTitle(getString(R.string.title_delete_message))
             .setMessage(getString(R.string.delete_message))
-            .setPositiveButton(getString(R.string.btn_yes_delete_message)){ // الزر الايجابي
-                _ , _ ->
+            .setPositiveButton(getString(R.string.btn_yes_delete_message)) { // الزر الايجابي
+                    _, _ ->
                 msgViewModel.deleteMessage(message = message)
             }
-            .setNegativeButton(getString(R.string.btn_cancel_delete_message), null) // زر الالغاء
+            .setNegativeButton(getString(R.string.btn_cancel), null) // زر الالغاء
             .show()
     }
-enum class InputMode{SEND , EDIT}
+
+    enum class InputMode { SEND, EDIT }
 
     private var inputMode = InputMode.SEND
-    private var editingMessage:MessageText?=null
+    private var editingMessage: MessageText? = null
+
     // تهيئة شكل حقل الكتابة بعد الضغط عل تعديل
     private fun enterEditMode(message: MessageText) {
         binding.btnCancelEditMsgId.isVisible = true
@@ -489,8 +498,9 @@ enum class InputMode{SEND , EDIT}
         binding.btnSendMsgId.setIconResource(R.drawable.ic_edit) // icon send
         binding.etWrightMessageId.requestFocus()
     }
+
     // التعديل الفعلي يتم هننا
-    private fun editingMessage(){
+    private fun editingMessage() {
         val message = editingMessage ?: return // جلب الرسالة المراد تعديلها الي هذه المتغير
 
         val newText = binding.etWrightMessageId.text.toString().trim()
@@ -501,7 +511,7 @@ enum class InputMode{SEND , EDIT}
         exitEditMode() // بعد الانتها من التعديل
     }
 
-// دلة ترجع شكل حقل الكتابة الي وضعة السابق قبل الضغط عل تعديل
+    // دلة ترجع شكل حقل الكتابة الي وضعة السابق قبل الضغط عل تعديل
     private fun exitEditMode() {
         inputMode = InputMode.SEND
         editingMessage = null
@@ -511,12 +521,13 @@ enum class InputMode{SEND , EDIT}
 
         binding.btnSendMsgId.setIconResource(R.drawable.btn_send_message_chat)
     }
+
     // عملية النسخ تتم هنا
     private fun copyToClipboard(copyText: String) {
 
         val clipboard = requireContext()
             .getSystemService( // من خدمات اندرويد
-            ClipboardManager::class.java // ننشي كانت المتحكم في النسخ
+                ClipboardManager::class.java // ننشي كانت المتحكم في النسخ
             )
 
         val clip = ClipData.newPlainText("message", copyText)
@@ -529,44 +540,19 @@ enum class InputMode{SEND , EDIT}
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
-    private fun View.showSnackBar(message: String){
-        Snackbar.make(this , message , Snackbar.LENGTH_SHORT).show()
+
+    private fun View.showSnackBar(message: String) {
+        Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
         chatDocumentViewModel.stopOnTyping(
-            chatId = chatId ,currentUserUid
+            chatId = chatId, currentUserUid
         )
         msgViewModel.onClose()
         _binding = null
         super.onDestroyView()
     }
 }
-
-
-
-
-
-
-
-//    private fun adapterAndRecyclerView(currentUid: String) {
-//        messageAdapter = MessageAdapter(currentUserId = currentUid)
-//        val layoutManager = LinearLayoutManager(requireContext()) // ترتيب الرسائل عموديا
-//        // recyclerView
-//        binding.recyclerViewMessageChatId.apply {
-//            this.layoutManager = layoutManager
-//           adapter =  messageAdapter  // ربطنا ال recyclerView ب adapter الذي بنينا
-//               setHasFixedSize(true)
-//            addOnScrollListener(object : RecyclerView.OnScrollListener(){ // انشي مستمع او مراقب لتحرك recyclerView
-//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) { //  تعني عندما يتم تحريك recyclerView نفذ الكود التالي
-//                    super.onScrolled(recyclerView, dx, dy) // dx الحركة الافقية شمال يمين  dy حركة العمودية اعلا اسفل
-//                    val lastItemVisible = layoutManager.findLastVisibleItemPosition() // دالة ترجع قيمة اخر عنصر في القائمة
-//                    val totalItemCount = messageAdapter.itemCount // ترجع عدد العناصر الي يحتويها adapter
-//                    isAtBottom = lastItemVisible >= totalItemCount - 1 // اذا كان قيمة اخر عنصر في القائمة == اخر عنصر في adapter هذا يعني ان المستخدم في اسفل القائمة
-//                }
-//            }
-//                )
-//        }
-//    }
 
 

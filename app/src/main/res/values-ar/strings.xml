@@ -1,37 +1,38 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
 
-    <!-- التطبيق -->
+<resources>
+    <!-- App -->
     <string name="app_name">ChatterFlow</string>
 
-    <!-- تسجيل الدخول -->
+    <!-- Authentication -->
     <string name="title_create_account">إنشاء حساب</string>
     <string name="title_login">تسجيل الدخول</string>
 
     <string name="create_account">إنشاء حساب</string>
-    <string name="login_account">مرحبًا بعودتك</string>
-    <string name="create_account_description">
-        أنشئ حسابك لبدء الدردشة.
-    </string>
+    <string name="login_account">مرحباً بعودتك</string>
+    <string name="create_account_description">أنشئ حسابك لبدء المحادثة.</string>
 
     <string name="et_name">الاسم</string>
     <string name="et_email">البريد الإلكتروني</string>
     <string name="et_password">كلمة المرور</string>
 
-    <string name="btn_register">إنشاء حساب</string>
-    <string name="btn_login">تسجيل الدخول</string>
+    <string name="btn_register">تسجيل</string>
+    <string name="btn_login">دخول</string>
     <string name="btn_logout">تسجيل الخروج</string>
 
     <string name="btn_to_login">لديك حساب بالفعل؟</string>
     <string name="btn_to_register">ليس لديك حساب؟</string>
 
-    <!-- المستخدمون -->
-    <string name="select_user">اختر مستخدمًا</string>
-    <string name="search_user">ابحث عن مستخدم</string>
-    <string name="no_user_found">لم يتم العثور على مستخدمين</string>
 
-    <!-- الدردشة -->
-    <string name="typing">يكتب الآن...</string>
-    <string name="typing_message">جارٍ كتابة رسالة...</string>
+    <!-- Users -->
+    <string name="select_user">اختيار مستخدم</string>
+    <string name="search_user">البحث عن مستخدمين</string>
+    <string name="no_user_found">لا يوجد مستخدمون</string>
+
+
+    <!-- Chat -->
+    <string name="typing">يكتب...</string>
+    <string name="typing_message">يكتب رسالة...</string>
 
     <string name="msg_send">رسالة مرسلة</string>
     <string name="msg_receiver">رسالة مستلمة</string>
@@ -40,20 +41,29 @@
 
     <string name="item_date">أمس</string>
 
-    <!-- الحساب -->
+
+    <!-- Toolbar -->
+    <string name="search_menu_listChat">البحث في المحادثات</string>
+    <string name="account_menu_listChat">الحساب</string>
+    <string name="settings_menu_listChat">الإعدادات</string>
+    <string name="logout_menu_listChat">تسجيل الخروج</string>
+
+
+    <!-- Account -->
     <string name="account">الحساب</string>
-    <string name="account_uid">المعرّف</string>
-    <string name="account_email">example@email.com</string>
+    <string name="account_uid">المعرف UID</string>
+    <string name="account_email">البريد الإلكتروني</string>
 
     <string name="account_user_info">معلومات المستخدم</string>
     <string name="account_btn_edit">تعديل الملف الشخصي</string>
     <string name="account_btn_change_password">تغيير كلمة المرور</string>
 
     <string name="account_user_txt_info">
-        مرحبًا، أنا مطور تطبيقات أندرويد باستخدام Kotlin.
-    </string>
+مرحباً! أنا مطور تطبيقات أندرويد باستخدام Kotlin.
+</string>
 
-    <!-- القائمة -->
+
+    <!-- Menu -->
     <string name="copy_menu">نسخ</string>
     <string name="edit_menu">تعديل</string>
     <string name="delete_menu">حذف</string>
@@ -61,71 +71,302 @@
     <string name="information">معلومات</string>
     <string name="remove_menu">مسح المحادثة</string>
 
-    <string name="search_menu_listChat">البحث في المحادثات</string>
-    <string name="account_menu_listChat">الحساب</string>
-    <string name="settings_menu_listChat">الإعدادات</string>
-    <string name="logout_menu_listChat">تسجيل الخروج</string>
 
-    <!-- رسائل النجاح -->
+    <!-- Success -->
     <string name="copy_success">تم نسخ الرسالة بنجاح.</string>
     <string name="edit_success">تم تعديل الرسالة بنجاح.</string>
     <string name="delete_success">تم حذف الرسالة بنجاح.</string>
     <string name="remove_success">تم مسح المحادثة بنجاح.</string>
 
-    <!-- الحوارات -->
+
+    <!-- Dialog -->
     <string name="title_delete_message">حذف الرسالة</string>
     <string name="title_removeAll_message">مسح المحادثة</string>
 
     <string name="btn_yes_delete_message">حذف</string>
-    <string name="btn_cancel_delete_message">إلغاء</string>
+    <string name="btn_cancel">إلغاء</string>
 
     <string name="delete_message">
-        هل أنت متأكد من حذف هذه الرسالة؟
-    </string>
+هل أنت متأكد من حذف هذه الرسالة؟
+</string>
 
     <string name="removeAll_message">
-        هل أنت متأكد من مسح جميع رسائل هذه المحادثة؟
-    </string>
+هل أنت متأكد من مسح هذه المحادثة؟
+</string>
 
     <string name="logout_dialog_message">
-        هل أنت متأكد من تسجيل الخروج؟
-    </string>
+هل أنت متأكد من تسجيل الخروج؟
+</string>
 
-    <!-- الأخطاء -->
+
+    <!-- Errors -->
     <string name="error_email_already_exists_AuthError">
-        البريد الإلكتروني مستخدم بالفعل.
-    </string>
+هذا البريد الإلكتروني مسجل مسبقاً.
+</string>
 
     <string name="error_weak_password_AuthError">
-        كلمة المرور ضعيفة.
-    </string>
+كلمة المرور ضعيفة.
+</string>
 
     <string name="error_invalid_credentials_AuthError">
-        البريد الإلكتروني أو كلمة المرور غير صحيحة.
-    </string>
+البريد الإلكتروني أو كلمة المرور غير صحيحة.
+</string>
 
     <string name="error_network_error_AuthError">
-        لا يوجد اتصال بالإنترنت.
-    </string>
+لا يوجد اتصال بالإنترنت.
+</string>
 
     <string name="error_unknown_error_AuthError">
-        حدث خطأ غير متوقع.
-    </string>
+حدث خطأ غير متوقع.
+</string>
 
     <string name="error_empty_password_validError">
-        يرجى إدخال كلمة المرور.
-    </string>
+يرجى إدخال كلمة المرور.
+</string>
 
     <string name="error_empty_email_validError">
-        يرجى إدخال البريد الإلكتروني.
-    </string>
+يرجى إدخال البريد الإلكتروني.
+</string>
 
     <string name="error_invalid_email_validError">
-        يرجى إدخال بريد إلكتروني صحيح.
-    </string>
+يرجى إدخال بريد إلكتروني صحيح.
+</string>
 
     <string name="error_empty_name_validError">
-        يرجى إدخال الاسم.
-    </string>
+يرجى إدخال الاسم.
+</string>
+
+    <string name="success_delete_chat">
+تم حذف المحادثة بنجاح.
+</string>
+
+    <string name="menu_delete_chat">
+حذف المحادثة
+</string>
+
+    <string name="menu_delete_chat_msg_dialog">
+هل أنت متأكد من حذف هذه المحادثة؟
+</string>
+
+    <string name="menu_about">
+حول التطبيق
+</string>
+
+    <!-- About -->
+
+    <string name="app_version">الإصدار 1.0.0</string>
+
+    <string name="about_title">حول التطبيق</string>
+
+    <string name="about_description">
+
+        الChatterFlow هو تطبيق مراسلة حديث يعمل في الوقت الحقيقي، تم تطويره باستخدام Kotlin و Firebase.
+يوفر تجربة محادثة بسيطة وسلسة باستخدام تقنيات أندرويد الحديثة.
+</string>
+
+
+    <string name="developer_title">المطور</string>
+
+    <string name="developer_name">
+أحمد علي الدهمشي
+</string>
+
+
+    <string name="developer_role">
+مطور تطبيقات أندرويد Kotlin
+</string>
+
+
+    <string name="technologies">
+تم البناء باستخدام:
+
+        • Kotlin
+• Firebase Firestore
+• MVVM
+• Hilt
+• Coroutines
+• StateFlow
+• Material 3
+</string>
+
+
+    <string name="contact_title">
+التواصل
+</string>
+
+
+    <string name="email">Email</string>
+
+
+    <string name="github">
+GitHub
+</string>
+
+
+    <string name="developer_email">
+ahmed.aldhmshi.dev@gmail.com
+</string>
+
+
+    <string name="github_url">
+https://github.com/ahmedaldhmshidev-art
+</string>
+
+
+    <string name="copyright">
+© 2026 ChatterFlow
+</string>
+
+
+    <!-- Settings -->
+
+    <string name="title_settings">
+الإعدادات
+</string>
+
+
+    <string name="version.1.0.0">
+1.0.0
+</string>
+
+
+    <string name="language_english">English</string>
+
+
+    <string name="language_arabic">
+العربية
+</string>
+
+
+    <string name="theme_system">
+النظام
+</string>
+
+
+    <string name="theme_light">
+فاتح
+</string>
+
+
+    <string name="theme_dark">
+داكن
+</string>
+
+
+    <string name="title_change_language">
+تغيير اللغة
+</string>
+
+
+    <string name="message_change_language">
+هل تريد تغيير اللغة؟
+</string>
+
+
+    <string name="btn_change_language">
+تغيير
+</string>
+
+
+    <string name="save_success">
+تم الحفظ بنجاح
+</string>
+
+
+    <!-- Account Edit -->
+
+    <string name="bio_account">
+نبذة الحساب
+</string>
+
+
+    <string name="name_account">
+اسم الحساب
+</string>
+
+
+    <string name="save">
+حفظ
+</string>
+
+    <string name="language">
+اللغة
+</string>
+    <string name="theme">
+الثيم
+</string>
+    <string name="version">
+الاصدار
+</string>
+
+
+    <string name="title_dialog_edit_account">
+تعديل الحساب
+</string>
+
+
+    <string name="success_change_password_account">
+تم تغيير كلمة المرور بنجاح.
+</string>
+
+
+    <!-- Change Password -->
+
+    <string name="title_dialog_change_password_account">
+تغيير كلمة المرور
+</string>
+
+
+    <string name="message_dialog_change_password_account">
+هل تريد تغيير كلمة المرور؟
+</string>
+
+
+    <string name="current_password_change_password_account">
+كلمة المرور الحالية
+</string>
+
+
+    <string name="new_password_change_password_account">
+كلمة المرور الجديدة
+</string>
+
+
+    <string name="confirm_password_change_password_account">
+تأكيد كلمة المرور
+</string>
+
+
+    <string name="error_new_password_less_6">
+يجب أن تكون كلمة المرور 6 أحرف على الأقل.
+</string>
+
+
+    <string name="error_confirm_password_different">
+يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور الحالية.
+</string>
+
+
+    <string name="error_blank_new_password">
+كلمة المرور الجديدة مطلوبة.
+</string>
+
+
+    <string name="error_blank_confirm_password">
+تأكيد كلمة المرور مطلوب.
+</string>
+
+
+    <string name="error_blank_current_password">
+كلمة المرور الحالية مطلوبة.
+</string>
+
+    <string name="error_confirm_password_does_not_match">تاكيد كلمة المرور غير مطابق.</string>
+
+    <string name="error_blank_name_profile">لا يمكن ان يكون الاسم فاضي.</string>
+
+    <string name="error_new_name_must_be_different">الاسم الجديد يجب ان يكون مختلف.</string>
+    <string name="error_no_chat_found">لاتوجد محادثة مطابقة.</string>
+    <string name="error_no_user_found">لاتوجد مستخدم مطابقة.</string>
 
 </resources>

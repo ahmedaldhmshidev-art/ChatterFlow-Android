@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.chatapp.a_authentication.SessionManager
 import com.example.chatapp.a_authentication.modelAuth.User
+import com.example.chatapp.a_authentication.useCase.LogoutUseCase
 import com.example.chatapp.b_user_list.repository_user_list.RepositoryUserList
 import com.example.chatapp.c_listChatUser.modelList.ListChatUsers
 import com.example.chatapp.c_listChatUser.repository_List.ListChatRepository
 import com.example.chatapp.c_listChatUser.stateAndEventList.ListChatEvent
 import com.example.chatapp.c_listChatUser.stateAndEventList.ListChatState
+import com.example.chatapp.c_listChatUser.useCase.DeleteChatUseCase
 import com.example.chatapp.e_messageChatId.b_data.repository_msg.MessageRepository
 import com.example.chatapp.mapper.toListChatUsers
 import kotlinx.coroutines.Job
@@ -24,12 +26,14 @@ import kotlinx.coroutines.launch
 
 class ListChatViewModel(
     private val chatRepository: ListChatRepository,
-    private val userRepository:RepositoryUserList,
-    private val sessionManager: SessionManager
+    private val userRepository: RepositoryUserList,
+    private val sessionManager: SessionManager,
+    private val deleteChatUseCase: DeleteChatUseCase,
+    private val logoutUseCase: LogoutUseCase,
 
-):ViewModel() {
+    ) : ViewModel() {
 
-    private lateinit var currentUserId:String
+    private lateinit var currentUserId: String
 
     private val _listChatState = MutableStateFlow<ListChatState>(ListChatState.Idle)
     val listChatState = _listChatState.asStateFlow()
@@ -37,14 +41,18 @@ class ListChatViewModel(
     private val _chatMessageEvent = MutableSharedFlow<ListChatEvent>()
     val chatMessageEvent = _chatMessageEvent.asSharedFlow()
 
+    private var allChats: List<ListChatUsers> = emptyList()
     fun getAllChat() {
-        currentUserId = sessionManager.currentUserId?:return
+        currentUserId = sessionManager.currentUserId ?: return
         viewModelScope.launch {
             chatRepository.getAllChat(currentUserId)
                 .onStart {
                     _listChatState.value = ListChatState.Loading
-                }.catch {
-                    _listChatState.value = ListChatState.Error(it.message ?: "ErrorOnGetAllChat")
+                }
+                .catch {
+                    _chatMessageEvent.emit(
+                        ListChatEvent.Error(it.message ?: "ErrorOnGetAllChat")
+                    )
                 }
                 .collect { chats ->
                     val items = chats.map { chat ->
@@ -55,12 +63,39 @@ class ListChatViewModel(
                             user = user ?: User(), currentUserId = currentUserId
                         )
                     }
-                    if (items.isNotEmpty()) _listChatState.value = ListChatState.Success(items)
-                    if (items.isEmpty()) _listChatState.value = ListChatState.Empty
+                    allChats = items
+
+                    if (items.isNotEmpty()) {
+                        _listChatState.value = ListChatState.Success(items)
+                    } else {
+                        _listChatState.value = ListChatState.Empty
+                    }
                 }
         }
     }
 
+    fun deleteChat(chatId: String) {
+        viewModelScope.launch {
+            deleteChatUseCase(chatId = chatId)
+                .onSuccess {
+                    _chatMessageEvent.emit(
+                        ListChatEvent.SuccessDeleteChat
+                    )
+                }
+                .onFailure {
+                    _chatMessageEvent.emit(
+                        ListChatEvent.Error(it.message ?: "Error on delete chat")
+                    )
+                }
+        }
+    }
+
+    fun logout() {
+        logoutUseCase()
+        viewModelScope.launch {
+            _chatMessageEvent.emit(ListChatEvent.NavigationToLogin)
+        }
+    }
 
     fun onUserClick(user: ListChatUsers) {
         viewModelScope.launch {
@@ -71,12 +106,38 @@ class ListChatViewModel(
             )
         }
     }
+
+    fun searchChats(query: String) {
+
+        if (query.isBlank()) {
+            _listChatState.value =
+                if (allChats.isEmpty()) {
+                    ListChatState.Empty
+                } else {
+                    ListChatState.Success(allChats)
+                }
+            return
+        }
+
+        val filterChats = allChats.filter {
+            it.userName.contains(query, ignoreCase = true)
+        }
+        if (filterChats.isEmpty()) {
+            _listChatState.value = ListChatState.SearchEmpty(query)
+        } else {
+            _listChatState.value = ListChatState.Success(filterChats)
+        }
+    }
 }
+
 
 class ListChatViewModelFactory(
     private val chatRepository: ListChatRepository,
     private val userRepository: RepositoryUserList,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val deleteChatUseCase: DeleteChatUseCase,
+    private val logoutUseCase: LogoutUseCase
+
 
 ) : ViewModelProvider.Factory {
 
@@ -86,7 +147,9 @@ class ListChatViewModelFactory(
             return ListChatViewModel(
                 chatRepository = chatRepository,
                 userRepository = userRepository,
-                sessionManager = sessionManager
+                sessionManager = sessionManager,
+                deleteChatUseCase = deleteChatUseCase,
+                logoutUseCase = logoutUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown Class for View Model")

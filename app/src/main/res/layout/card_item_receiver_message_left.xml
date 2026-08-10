@@ -21,20 +21,20 @@
 
         android:layout_height="wrap_content"
 
+        app:cardBackgroundColor="?attr/colorSurface"
+
         app:cardCornerRadius="18dp"
 
         app:cardElevation="0dp"
 
-        app:cardBackgroundColor="?attr/colorSurface"
-
-        app:strokeWidth="1dp"
-
-        app:strokeColor="@color/cardview_shadow_end_color"
-
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
-        >
+
+        app:strokeColor="@color/cardview_shadow_end_color"
+
+
+        app:strokeWidth="1dp">
 
 
         <LinearLayout
@@ -54,16 +54,16 @@
 
                 android:id="@+id/tv_message_item_receiver"
 
+                style="@style/TextAppearance.ChatApp.Body"
+
                 android:layout_width="wrap_content"
 
                 android:layout_height="wrap_content"
 
                 android:maxWidth="280dp"
-
-                android:textColor="?attr/colorOnSurface"
                 android:text="@string/msg_receiver"
 
-                style="@style/TextAppearance.ChatApp.Body"/>
+                android:textColor="?attr/colorOnSurface" />
 
 
             <!-- Edited -->
@@ -78,13 +78,13 @@
 
                 android:text="@string/edited"
 
+                android:textColor="?attr/colorOutline"
+
                 android:textSize="11sp"
 
                 android:textStyle="italic"
 
-                android:textColor="?attr/colorOutline"
-
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
             <TextView
@@ -98,9 +98,9 @@
                 android:layout_gravity="end"
 
 
-                android:textSize="11sp"
+                android:textColor="?attr/colorOutline"
 
-                android:textColor="?attr/colorOutline"/>
+                android:textSize="11sp" />
 
 
         </LinearLayout>

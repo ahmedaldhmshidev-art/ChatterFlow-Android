@@ -3,32 +3,32 @@
 <resources>
 
     <!-- Primary -->
-    <color name="primary">#60A5FA</color>
-    <color name="on_primary">#0F172A</color>
+    <color name="primary">#7CB7E8</color>
+    <color name="on_primary">#102030</color>
 
 
     <!-- Secondary -->
-    <color name="secondary">#38BDF8</color>
-    <color name="on_secondary">#0F172A</color>
+    <color name="secondary">#8BC4E8</color>
+    <color name="on_secondary">#102030</color>
 
 
     <!-- Background -->
-    <color name="background">#0F172A</color>
-    <color name="on_background">#F8FAFC</color>
+    <color name="background">#121A24</color>
+    <color name="on_background">#E8EEF5</color>
 
 
     <!-- Surface -->
-    <color name="surface">#1E293B</color>
-    <color name="on_surface">#F8FAFC</color>
+    <color name="surface">#1B2634</color>
+    <color name="on_surface">#E8EEF5</color>
 
 
     <!-- Error -->
-    <color name="error">#EF4444</color>
+    <color name="error">#F07171</color>
     <color name="on_error">#FFFFFF</color>
 
 
     <!-- Outline -->
-    <color name="outline">#475569</color>
+    <color name="outline">#3B4A5C</color>
 
 
     <!-- Extra -->

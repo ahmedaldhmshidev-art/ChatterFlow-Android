@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,27 +27,23 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class UserList : Fragment() {
-    private var _binding:FragmentUserListBinding?=null
+    private var _binding: FragmentUserListBinding? = null
     private val binding get() = _binding!!
 
-    private val userListViewModel :ViewModelUserList by viewModels {
+    private val userListViewModel: ViewModelUserList by viewModels {
         UserListViewModelFactory(
             repository = requireContext().appContainer.userRepository,
             sessionManager = requireContext().appContainer.sessionManager
         )
     }
-//    private fun showProgressLoading(isLoading: Boolean) {
-//        binding.progressUserListId.isVisible = isLoading
-//        binding.progressUserListId.isEnabled = isLoading
-//    }
 
-    private lateinit var  adapterUserList :AdapterUserList
+    private lateinit var adapterUserList: AdapterUserList
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUserListBinding.inflate(inflater,container,false)
+        _binding = FragmentUserListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,25 +53,31 @@ class UserList : Fragment() {
         toolbarDesign()
         setupAdapterAndRecyclerView()
 
+        setupSearchUser()
 
         userListViewModel.gatAllUsers()
         observeState()
         observeEvent()
     }
 
+    private fun setupSearchUser() {
+        binding.etSearchUserListId.addTextChangedListener { text ->
+            userListViewModel.searchUsers(text?.toString().orEmpty())
+        }
+    }
+
     private fun observeEvent() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                userListViewModel.eventUserList.collect{
-                    event->
-                  when(event){
-                      is EventUserList.NavigationToMessageUserList->{
-                          val action = UserListDirections.actionUserListToMessageChat(
-                              receiverId = event.user.uid
-                          )
-                          findNavController().navigate(action)
-                      }
-                  }
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                userListViewModel.eventUserList.collect { event ->
+                    when (event) {
+                        is EventUserList.NavigationToMessageUserList -> {
+                            val action = UserListDirections.actionUserListToMessageChat(
+                                receiverId = event.user.uid
+                            )
+                            findNavController().navigate(action)
+                        }
+                    }
                 }
             }
         }
@@ -88,32 +91,44 @@ class UserList : Fragment() {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                userListViewModel.stateUserList.collect{state ->
-                    when(state){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                userListViewModel.stateUserList.collect { state ->
+                    when (state) {
 
-                        StateUserList.Loading->{
+                        StateUserList.Loading -> {
                             binding.progressUserListId.isVisible = true
                             binding.rvUserListId.isVisible = false
-                            binding.layoutEmptyUserList.layoutEmpty.isVisible=false
-                        }
-                        is StateUserList.Success->{
-                            binding.progressUserListId.isVisible = false
-                            binding.rvUserListId.isVisible = true
-                            binding.layoutEmptyUserList.layoutEmpty.isVisible=false
-                            adapterUserList.submitList(state.users)
-                        }
-                        is StateUserList.Empty->{
-                            binding.progressUserListId.isVisible = false
-                            binding.rvUserListId.isVisible = false
-                            binding.layoutEmptyUserList.layoutEmpty.isVisible=true
-                        }
-                        is StateUserList.Error->{
-                           binding.progressUserListId.isVisible=false
-                            Toast.makeText(requireContext(),state.message, Toast.LENGTH_SHORT).show()
+                            binding.layoutEmptyUserList.layoutEmpty.isVisible = false
                         }
 
-                       else -> Unit
+                        is StateUserList.Success -> {
+                            binding.progressUserListId.isVisible = false
+                            binding.rvUserListId.isVisible = true
+                            binding.layoutEmptyUserList.layoutEmpty.isVisible = false
+                            adapterUserList.submitList(state.users)
+                        }
+
+                        is StateUserList.Empty -> {
+                            binding.progressUserListId.isVisible = false
+                            binding.rvUserListId.isVisible = false
+                            binding.layoutEmptyUserList.layoutEmpty.isVisible = true
+                        }
+
+                        is StateUserList.Error -> {
+                            binding.progressUserListId.isVisible = false
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
+                        is StateUserList.SearchEmpty -> {
+                            binding.progressUserListId.isVisible = false
+                            binding.rvUserListId.isVisible = false
+                            binding.layoutEmptyUserList.layoutEmpty.isVisible = true
+                            binding.layoutEmptyUserList.textEmptyId.text =
+                                getString(R.string.error_no_user_found)
+                        }
+
+                        else -> Unit
                     }
                 }
             }
@@ -121,8 +136,7 @@ class UserList : Fragment() {
     }
 
     private fun setupAdapterAndRecyclerView() {
-        adapterUserList=AdapterUserList{
-            user ->
+        adapterUserList = AdapterUserList { user ->
             userListViewModel.onUserClick(user)
         }
         binding.rvUserListId.layoutManager = LinearLayoutManager(requireContext())

@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
-import com.example.chatapp.a_authentication.SessionManager
 import com.example.chatapp.a_application.appContainer
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.AppSetting
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.PreferencesManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -21,23 +24,25 @@ class MainActivity : AppCompatActivity() {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 //            insets
 //        }
-
         setupStartDestination()
-        Log.d("APP_TEST", application.javaClass.name)
+
     }
+
+
     private fun setupStartDestination() {
         val navHost = supportFragmentManager
             .findFragmentById(R.id.fc_auth_nav_host_system_userId_activityMain)
-        as NavHostFragment  // حول ال contenrFragment من xml الي كائن يفهمة android
+                as NavHostFragment  // حول ال contenrFragment من xml الي كائن يفهمة android
         val navController = navHost.navController //جيب المسوال المتحكم في التنقل لل navhost
-        val graph = navController.navInflater.inflate(R.navigation.main_nav_graph)  // حول الصفحة xml  الي object اندرويد
+        val graph =
+            navController.navInflater.inflate(R.navigation.main_nav_graph)  // حول الصفحة xml  الي object اندرويد
 
-        if (appContainer.checkSessionUseCase()){
-            Log.d("mainActivityStartDelivered"," CreateStart ")
+        if (appContainer.checkSessionUseCase()) {
+            Log.d("mainActivityStartDelivered", " CreateStart ")
 
             appContainer.startObserverDelivered()
             graph.setStartDestination(R.id.list_chats_nav_graph)
-        }else{
+        } else {
             graph.setStartDestination(R.id.authentication_nav_host)
         }
         navController.graph = graph  //طبق التعديل الجديد علي الnavgraph

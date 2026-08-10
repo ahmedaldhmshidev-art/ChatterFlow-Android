@@ -3,9 +3,7 @@
 <resources>
 
 
-    <style
-        name="Base.Theme.ChatApp"
-        parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.ChatApp" parent="Theme.Material3.DayNight.NoActionBar">
 
 
         <!-- Colors -->
@@ -59,18 +57,12 @@
     </style>
 
 
-
-    <style
-        name="Theme.ChatApp"
-        parent="Base.Theme.ChatApp" />
-
+    <style name="Theme.ChatApp" parent="Base.Theme.ChatApp" />
 
 
     <!-- Splash -->
 
-    <style
-        name="Theme.ChatApp.Splash"
-        parent="Theme.SplashScreen">
+    <style name="Theme.ChatApp.Splash" parent="Theme.SplashScreen">
 
 
         <item name="windowSplashScreenBackground">

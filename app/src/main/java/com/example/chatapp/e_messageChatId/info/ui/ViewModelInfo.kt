@@ -3,8 +3,8 @@ package com.example.chatapp.e_messageChatId.info.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.chatapp.c_listChatUser.accountMenu.domin.GetAccountCurrentUseCase
-import com.example.chatapp.c_listChatUser.accountMenu.ui.AccountViewModel
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.domin.GetAccountCurrentUseCase
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.ui.AccountViewModel
 import com.example.chatapp.e_messageChatId.info.uiState.UiStateInfo
 import com.example.chatapp.e_messageChatId.info.useCase.GetOtherUserUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class ViewModelInfo(
     private val infoUserUseCase: GetOtherUserUseCase
-):ViewModel() {
+) : ViewModel() {
 
     private val _stateInfo = MutableStateFlow(UiStateInfo())
     val stateInfo = _stateInfo.asStateFlow()
@@ -26,11 +26,11 @@ class ViewModelInfo(
         viewModelScope.launch {
             val otherUser = infoUserUseCase(otherUserId)
 
-            if (otherUser!= null){
-                _stateInfo.update { it.copy(isLoading = false , user = otherUser) }
-            }
-            else {
-                _stateInfo.update { it.copy(isLoading = false, error = "other user null")
+            if (otherUser != null) {
+                _stateInfo.update { it.copy(isLoading = false, user = otherUser) }
+            } else {
+                _stateInfo.update {
+                    it.copy(isLoading = false, error = "other user null")
                 }
 
 
@@ -48,7 +48,7 @@ class InfoViewModelFactory(
 
         if (modelClass.isAssignableFrom(ViewModelInfo::class.java)) {
             return ViewModelInfo(
-               getOtherUserUseCase
+                getOtherUserUseCase
             ) as T
         }
         throw IllegalArgumentException("Unknown Class for View Model")

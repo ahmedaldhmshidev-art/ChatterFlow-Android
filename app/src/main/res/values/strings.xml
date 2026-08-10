@@ -76,7 +76,7 @@
     <string name="title_removeAll_message">Clear Chat</string>
 
     <string name="btn_yes_delete_message">Delete</string>
-    <string name="btn_cancel_delete_message">Cancel</string>
+    <string name="btn_cancel">Cancel</string>
 
     <string name="delete_message">
         Are you sure you want to delete this message?
@@ -126,5 +126,144 @@
     <string name="error_empty_name_validError">
         Please enter your name.
     </string>
+
+    <string name="success_delete_chat">
+        Success delete chat
+    </string>
+
+    <string name="menu_delete_chat">
+      Delete chat
+    </string>
+    <string name="menu_delete_chat_msg_dialog">
+        are you want sure delete htis chat ?
+    </string>
+
+    <string name="menu_about">
+    About app
+    </string>
+
+
+    <string name="app_version">Version 1.0.0</string>
+
+
+    <string name="about_title">About Application</string>
+
+
+    <string name="about_description">
+ChatterFlow is a modern real-time messaging application built with Kotlin and Firebase.
+It provides a simple and smooth chat experience with modern Android technologies.
+</string>
+
+
+    <string name="developer_title">Developer</string>
+
+
+    <string name="developer_name">
+Ahmed Ali Aldhmshi
+</string>
+
+
+    <string name="developer_role">
+Android Kotlin Developer
+</string>
+
+
+    <string name="technologies">
+Built With:
+
+• Kotlin
+• Firebase Firestore
+• MVVM Architecture
+• Hilt Dependency Injection
+• Coroutines
+• StateFlow
+• Material 3
+</string>
+
+
+    <string name="contact_title">
+Contact
+</string>
+
+
+    <string name="email">
+Email
+</string>
+
+
+    <string name="github">
+GitHub
+</string>
+
+
+    <string name="developer_email">
+ahmed.aldhmshi.dev@gmail.com
+</string>
+
+
+    <string name="github_url">
+https://github.com/ahmedaldhmshidev-art
+</string>
+
+
+    <string name="copyright">
+© 2026 ChatterFlow
+</string>
+
+    <string name="title_settings">
+Setting
+</string>
+    <string name="language">
+Languages
+</string>
+    <string name="theme">
+Theme
+</string>
+    <string name="version">
+Version
+</string>
+
+    <string name="version.1.0.0">1.0.0</string>
+
+    <string name="language_english">English</string>
+    <string name="language_arabic">العربية</string>
+
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+
+    <string name="title_change_language">Change language</string>
+    <string name="message_change_language">do you want change language?</string>
+    <string name="btn_change_language">Change</string>
+    <string name="save_success">Save successfully</string>
+
+
+    <string name="bio_account">Bio account</string>
+    <string name="name_account">Name account</string>
+
+    <string name="save">Save</string>
+    <string name="title_dialog_edit_account">Edit Account</string>
+    <string name="success_change_password_account">Successfully to change password</string>
+
+    <string name="title_dialog_change_password_account">Change password</string>
+    <string name="message_dialog_change_password_account">do you want change password? </string>
+    <string name="current_password_change_password_account">Current password</string>
+    <string name="new_password_change_password_account">New password</string>
+    <string name="confirm_password_change_password_account">Confirm password</string>
+    <string name="error_new_password_less_6">Password must be at least 6 characters </string>
+    <string name="error_confirm_password_different">New password must be different from the current password</string>
+    <string name="error_confirm_password_does_not_match">Confirm password does not match new password</string>
+
+    <string name="error_blank_new_password">New password is required</string>
+    <string name="error_blank_confirm_password">confirm password is required</string>
+    <string name="error_blank_current_password">Current password is required</string>
+
+    <string name="error_blank_name_profile">Name cannot be empty</string>
+    <string name="error_new_name_must_be_different">New name must be different</string>
+
+    <string name="error_no_chat_found">No chat found</string>
+    <string name="error_no_user_found">No user found</string>
+
 
 </resources>

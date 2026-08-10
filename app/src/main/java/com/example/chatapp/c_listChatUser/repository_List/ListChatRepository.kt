@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 
 class ListChatRepository (private val firestore:FirebaseFirestore){
 
@@ -32,36 +33,31 @@ class ListChatRepository (private val firestore:FirebaseFirestore){
             listener.remove()
         }
     }
+    suspend fun deleteChat(chatId:String):Result<Unit>{
+        return try {
+            val chatRef = firestore
+                .collection("chats")
+                .document(chatId)
 
+            val messagesSnapshot = chatRef
+                .collection("messages")
+                .get()
+                .await()
 
+            val batch = firestore.batch()
+            // مر عل جميع الرسائل وحذفها
+            for (document in messagesSnapshot.documents){
+                batch.delete(document.reference)
+            }
+            // حذف الdocument بعد حذف جميع الرسائل تبعه
+            batch.delete(chatRef)
+            // نفذ الحذف
+            batch.commit().await()
 
-
-
-//    // Typing
-//    suspend fun updateTyping(chatId: String , userId:String ,isTyping:Boolean) {
-//        firestore.collection("chats")
-//            .document(chatId).set(
-//                mapOf("typingWright" to mapOf(
-//                    userId to mapOf(
-//                        "isTyping" to isTyping,
-//                        "timestamp" to System.currentTimeMillis()
-//                    )))
-//                , SetOptions.merge()
-//            ).await()
-//    }
-//
-//    fun getListenerTyping(chatId: String, otherUserId:String, isTypingResult:(Boolean)->Unit ){
-//        firestore.collection("chats")
-//            .document(chatId)
-//            .addSnapshotListener { snapshot, _ ->
-//
-//                val typingMap = snapshot?.get("typingWright") as? Map<String,Any> ?: emptyMap()
-//
-//                val userTyping = typingMap[otherUserId] as? Map<String,Any>
-//
-//                val isTyping = userTyping?.get("isTyping") as? Boolean ?: false
-//
-//                isTypingResult(isTyping)
-//            }
-//    }
+            Result.success(Unit)
+        }
+        catch (e:Exception){
+            Result.failure(e)
+        }
+    }
 }

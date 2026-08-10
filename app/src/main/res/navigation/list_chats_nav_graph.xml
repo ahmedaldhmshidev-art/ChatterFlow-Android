@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_chats_nav_graph"
@@ -10,7 +9,7 @@
         android:id="@+id/listChats"
         android:name="com.example.chatapp.c_listChatUser.ui_List.ListChats"
         android:label="fragment_list_chats"
-        tools:layout="@layout/fragment_list_chats" >
+        tools:layout="@layout/fragment_list_chats">
         <action
             android:id="@+id/action_listChats_to_messageChat"
             app:destination="@id/messageChat"
@@ -21,58 +20,67 @@
         <action
             android:id="@+id/action_listChats_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_listChats_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment" />
+        <action
+            android:id="@+id/action_listChats_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/messageChat"
         android:name="com.example.chatapp.e_messageChatId.ui_.MessageChat"
         android:label="fragment_message_chat"
-        tools:layout="@layout/fragment_message_chat" >
+        tools:layout="@layout/fragment_message_chat">
         <argument
             android:name="receiverId"
-            app:argType="string"
-            />
+            app:argType="string" />
         <action
             android:id="@+id/action_messageChat_to_listChats"
             app:destination="@id/listChats"
             app:popUpTo="@id/messageChat"
-            app:popUpToInclusive="true"
-            />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_messageChat_to_infoFragmentMenu"
-            app:destination="@id/infoFragmentMenu"
-            />
+            app:destination="@id/infoFragmentMenu" />
     </fragment>
     <fragment
         android:id="@+id/userList"
         android:name="com.example.chatapp.b_user_list.ui_user_list.UserList"
         android:label="fragment_user_list"
-        tools:layout="@layout/fragment_user_list" >
+        tools:layout="@layout/fragment_user_list">
         <action
             android:id="@+id/action_userList_to_messageChat"
             app:destination="@id/messageChat"
             app:popUpTo="@id/listChats"
-            app:popUpToInclusive="false"
-            />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.example.chatapp.c_listChatUser.accountMenu.ui.AccountFragment"
+        android:name="com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.ui.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" >
+        tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_accountFragment_to_listChats"
-            app:destination="@id/listChats"
-            />
+            app:destination="@id/listChats" />
     </fragment>
     <fragment
         android:id="@+id/infoFragmentMenu"
         android:name="com.example.chatapp.e_messageChatId.info.ui.InfoFragmentMenu"
         android:label="fragment_info_menu"
-        tools:layout="@layout/fragment_info_menu"
-        >
+        tools:layout="@layout/fragment_info_menu">
         <argument
             android:name="otherUserId"
-            app:argType="string"
-            />
+            app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.example.chatapp.c_listChatUser.menuToolbar_ListChat.aboutApp.AboutAppFragment"
+        android:label="fragment_about_app"
+        tools:layout="@layout/fragment_about_app" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>

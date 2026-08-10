@@ -1,5 +1,6 @@
 package com.example.chatapp.a_application
 
+import android.content.Context
 import com.example.chatapp.a_authentication.SessionManager
 import com.example.chatapp.a_authentication.repositoryAuth.AuthRepository
 import com.example.chatapp.a_authentication.useCase.CheckSessionUseCase
@@ -7,9 +8,14 @@ import com.example.chatapp.a_authentication.useCase.LoginUseCase
 import com.example.chatapp.a_authentication.useCase.LogoutUseCase
 import com.example.chatapp.a_authentication.useCase.RegisterUseCase
 import com.example.chatapp.b_user_list.repository_user_list.RepositoryUserList
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.domin.ChangePasswordUseCase
 import com.example.chatapp.c_listChatUser.repository_List.ListChatRepository
 import com.example.chatapp.d_chat_Document.repository_document.ChatDocumentRepository
-import com.example.chatapp.c_listChatUser.accountMenu.domin.GetAccountCurrentUseCase
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.domin.GetAccountCurrentUseCase
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.domin.UpdateInfoAccountUseCase
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.AppSetting
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.PreferencesManager
+import com.example.chatapp.c_listChatUser.useCase.DeleteChatUseCase
 import com.example.chatapp.e_messageChatId.c_domain.delivered.DeliveredObserver
 import com.example.chatapp.e_messageChatId.c_domain.seen.SeenObserver
 import com.example.chatapp.mapper.StatusManager
@@ -35,7 +41,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-class AppContainer {
+class AppContainer(context: Context) {
     // firebase
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -44,6 +50,7 @@ class AppContainer {
     val sessionManager: SessionManager by lazy {
         SessionManager(firebaseAuth)
     }
+
     // Repository
     private val messageRepository: MessageRepository by lazy { // msgRepo
         MessageRepository(firestore)
@@ -52,18 +59,18 @@ class AppContainer {
     val userRepository: RepositoryUserList by lazy { // userListRepo
         RepositoryUserList(firestore)
     }
-    val chatDocumentRepository :ChatDocumentRepository by lazy {
+    val chatDocumentRepository: ChatDocumentRepository by lazy {
         ChatDocumentRepository(firestore = firestore)
     }
 
-    val listChatRepository : ListChatRepository by lazy {
+    val listChatRepository: ListChatRepository by lazy {
         ListChatRepository(firestore = firestore)
     }
 
 
-    private val authRepository : AuthRepository by  lazy {
+    private val authRepository: AuthRepository by lazy {
         AuthRepository(
-            auth = firebaseAuth ,
+            auth = firebaseAuth,
             firestore = firestore,
             sessionManager = sessionManager
         )
@@ -83,7 +90,7 @@ class AppContainer {
     }
 
     // sync pipeline
-    private val syncPipelineMsg : SyncPipelineMsg by lazy {
+    private val syncPipelineMsg: SyncPipelineMsg by lazy {
         SyncPipelineMsg(
             messageRepository = messageRepository,
             updateChatDocumentLastMsg = updateChatDocumentLastMsg,
@@ -114,7 +121,7 @@ class AppContainer {
             msgRepository = messageRepository
         )
     }
-    val openChatUseCase : OpenChatUseCase by lazy {
+    val openChatUseCase: OpenChatUseCase by lazy {
         OpenChatUseCase(
             msgRepository = messageRepository,
             userRepository = userRepository,
@@ -122,7 +129,7 @@ class AppContainer {
             resetUnreadUseCase = resetUnreadUseCase
         )
     }
-   private val increaseUnreadUseCase by lazy {
+    private val increaseUnreadUseCase by lazy {
         IncreaseUnreadUseCase(
             unreadManager = unreadManager
         )
@@ -134,18 +141,24 @@ class AppContainer {
     }
     val removeAllMessageUseCase by lazy {
         RemoveAllMessageUseCase(
-            messageRepository , updateChatDocumentLastMsg ,resetUnreadUseCase
+            messageRepository, updateChatDocumentLastMsg, resetUnreadUseCase
         )
     }
     val getAccountCurrentUseCase by lazy {
-        GetAccountCurrentUseCase( repository = userRepository , sessionManager = sessionManager)
+        GetAccountCurrentUseCase(repository = userRepository, sessionManager = sessionManager)
+    }
+    val deleteChatUseCase by lazy {
+        DeleteChatUseCase(listChatRepository)
     }
 
+    val preferencesManager by lazy {
+        PreferencesManager(context.applicationContext)
+    }
 
 
     // observer
     private val applicationScope = CoroutineScope(
-        SupervisorJob()+Dispatchers.IO
+        SupervisorJob() + Dispatchers.IO
     )
     private val deliveredObserver by lazy {
         DeliveredObserver(
@@ -153,9 +166,10 @@ class AppContainer {
             scope = applicationScope,
             sessionManager = sessionManager,
             deliveredMsgUseCase = deliveredMsgUseCase
-            )
+        )
     }
-    fun startObserverDelivered(){
+
+    fun startObserverDelivered() {
         deliveredObserver.start()
     }
 
@@ -165,8 +179,8 @@ class AppContainer {
             scope = applicationScope,
             sessionManager = sessionManager,
             seenMsgUseCase = seenMsgUseCase,
-                resetUnreadUseCase = resetUnreadUseCase
-            )
+            resetUnreadUseCase = resetUnreadUseCase
+        )
     }
 
     //useCase auth
@@ -188,6 +202,13 @@ class AppContainer {
     val getOtherUserUseCase by lazy {
         GetOtherUserUseCase(userRepository)
     }
+    val updateInfoAccountUseCase by lazy {
+        UpdateInfoAccountUseCase(sessionManager, userRepository)
+    }
+    val changePasswordUseCase by lazy {
+        ChangePasswordUseCase(authRepository)
+    }
+
     // logout
     val logoutUseCase by lazy {
         LogoutUseCase(
@@ -195,14 +216,15 @@ class AppContainer {
             deliveredObserver = deliveredObserver
         )
     }
-// sentMessageWithBatch
+
+    // sentMessageWithBatch
     val sendMessageBatch by lazy {
-    SendMessageBatch(
-        firestore = firestore,
-        chatDocumentLastMsg = updateChatDocumentLastMsg,
-        unreadManager = unreadManager
-    )
-}
+        SendMessageBatch(
+            firestore = firestore,
+            chatDocumentLastMsg = updateChatDocumentLastMsg,
+            unreadManager = unreadManager
+        )
+    }
 
 
 }

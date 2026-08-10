@@ -7,7 +7,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
 
-    id("kotlin-parcelize" )
+    id("kotlin-parcelize")
 }
 
 android {
@@ -81,4 +81,5 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.9.7")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }
