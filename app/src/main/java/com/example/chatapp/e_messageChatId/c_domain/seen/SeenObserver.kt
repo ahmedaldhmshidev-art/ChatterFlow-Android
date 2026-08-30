@@ -18,9 +18,9 @@ class SeenObserver(
     private val sessionManager: SessionManager,
     private val seenMsgUseCase: SeenMsgUseCase,
     private val resetUnreadUseCase: ResetUnreadUseCase
-    ) {
-    private var listener: ListenerRegistration?=null
-    fun start(chatId:String) {
+) {
+    private var listener: ListenerRegistration? = null
+    fun start(chatId: String) {
         stop()
         listener = fireStore
             .collection("chats")
@@ -31,19 +31,22 @@ class SeenObserver(
                 if (error != null || snapshot == null) {
                     return@addSnapshotListener
                 }
-                snapshot.documentChanges.forEach {
-                    change ->
+                snapshot.documentChanges.forEach { change ->
 
                     if (change.type != DocumentChange.Type.ADDED && change.type != DocumentChange.Type.MODIFIED) return@forEach
 
                     val msg = change.document.toObject(MessageText::class.java)
 
-                    Log.d("SeenTestMsgId","chatId=${msg.chatId} msgId= ${msg.messageId} status=${msg.statusMessage}")
+                    Log.d(
+                        "SeenTestMsgId",
+                        "chatId=${msg.chatId} msgId= ${msg.messageId} status=${msg.statusMessage}"
+                    )
                     handleUpdatedMessage(msg)
                 }
             }
     }
-    private fun handleUpdatedMessage(msg: MessageText ) {
+
+    private fun handleUpdatedMessage(msg: MessageText) {
 
         val currentUserId = sessionManager.currentUserId ?: return
 
@@ -54,7 +57,7 @@ class SeenObserver(
         scope.launch {
             seenMsgUseCase(
                 message = msg,
-                )
+            )
             resetUnreadUseCase(
                 chatId = msg.chatId,
                 currentUserId
@@ -67,9 +70,9 @@ class SeenObserver(
         listener = null
     }
 
-    fun destroy(){
+    fun destroy() {
         stop()
-        scope.cancel()
+//        scope.cancel()
     }
 
 }
