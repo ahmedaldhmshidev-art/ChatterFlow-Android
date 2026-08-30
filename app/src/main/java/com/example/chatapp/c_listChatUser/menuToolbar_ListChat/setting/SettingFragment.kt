@@ -28,7 +28,6 @@ class SettingFragment : Fragment() {
 
     private fun showToastMsg(selected: String) {
         Toast.makeText(requireContext(), selected, Toast.LENGTH_SHORT).show()
-
     }
 
     override fun onCreateView(
@@ -138,7 +137,8 @@ class SettingFragment : Fragment() {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     preferencesManager.saveLanguage(selectedLanguage)
                     // رسالة تاكيد قبل تغيير اللغة
-                    showDialogChangeLanguage(selectedLanguage)
+//                    showDialogChangeLanguage(selectedLanguage)
+                    AppSetting.applyLanguage(selectedLanguage)
                 }
             }
             showToastMsg(selectedLanguage)
@@ -146,19 +146,19 @@ class SettingFragment : Fragment() {
     }
 
     // تاكيد تغيير اللغة
-    private fun showDialogChangeLanguage(language: String) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.title_change_language))
-            .setMessage(getString(R.string.message_change_language))
-
-            .setNegativeButton(getString(R.string.btn_cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setPositiveButton(getString(R.string.btn_change_language)) { _, _ ->
-                AppSetting.applyLanguage(language) // logout
-            }
-            .show()
-    }
+//    private fun showDialogChangeLanguage(language: String) {
+//        MaterialAlertDialogBuilder(requireContext())
+//            .setTitle(getString(R.string.title_change_language))
+//            .setMessage(getString(R.string.message_change_language))
+//
+//            .setNegativeButton(getString(R.string.btn_cancel)) { dialog, _ ->
+//                dialog.dismiss()
+//            }
+//            .setPositiveButton(getString(R.string.btn_change_language)) { _, _ ->
+//                AppSetting.applyLanguage(language) // logout
+//            }
+//            .show()
+//    }
 
 
     override fun onDestroyView() {

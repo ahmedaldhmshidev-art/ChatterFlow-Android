@@ -236,7 +236,7 @@ Version
     <string name="title_change_language">Change language</string>
     <string name="message_change_language">do you want change language?</string>
     <string name="btn_change_language">Change</string>
-    <string name="save_success">Save successfully</string>
+    <string name="success_edited_profile">Save successfully</string>
 
 
     <string name="bio_account">Bio account</string>
@@ -265,5 +265,14 @@ Version
     <string name="error_no_chat_found">No chat found</string>
     <string name="error_no_user_found">No user found</string>
 
+    <string name="error_no_session">Your session has expired. Please sign in again.</string>
+    <string name="error_invalid_current_password">Current password is incorrect.</string>
+    <string name="error_new_password_must_be_different">New Password must be different from the current password.</string>
+
+    <string name="error_no_changed_profile">No changes were made</string>
+    <string name="error_permission_denied">You don not have permission to perform this operation</string>
+
+    <string name="message_deleted_by_other">🚫 This message was deleted.</string>
+    <string name="message_deleted_by_me">🚫 You deleted this message.</string>
 
 </resources>

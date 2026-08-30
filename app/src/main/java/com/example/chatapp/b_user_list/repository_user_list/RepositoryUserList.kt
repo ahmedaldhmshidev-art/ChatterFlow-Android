@@ -15,7 +15,7 @@ class RepositoryUserList(private val firestore: FirebaseFirestore) {
             .addSnapshotListener { user, error ->
 
                 if (error != null) {
-                    trySend(emptyList())
+                    close(error)
                     return@addSnapshotListener
                 }
                 val users = user?.documents?.mapNotNull {
@@ -31,14 +31,12 @@ class RepositoryUserList(private val firestore: FirebaseFirestore) {
     }
 
     suspend fun getUserById(uid: String): User? {
-        return try {
-            val snapshot = firestore.collection("users")
+        val snapshot = firestore
+            .collection("users")
                 .document(uid)
-                .get().await()
-            snapshot.toObject(User::class.java)
-        } catch (e: Exception) {
-            null
-        }
+                .get()
+                .await()
+        return snapshot.toObject(User::class.java)
     }
 
     suspend fun updateProfileAccount(

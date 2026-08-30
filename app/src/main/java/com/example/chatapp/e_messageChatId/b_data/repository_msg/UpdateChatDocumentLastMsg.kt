@@ -37,7 +37,7 @@ class UpdateChatDocumentLastMsg(private val firestore: FirebaseFirestore) {
             val snapshot = chatRef.get()
                 .await()
 
-        val chatDocument = snapshot.toObject(ChatDocument::class.java)?:return
+        val chatDocument = snapshot.toObject(ChatDocument::class.java)?:throw IllegalStateException()
 
         val lastMsg = chatDocument.lastMessage ?: return
 
@@ -56,7 +56,7 @@ class UpdateChatDocumentLastMsg(private val firestore: FirebaseFirestore) {
 
         val snapshot = chatRef.get().await()
 
-        val chatDocument = snapshot.toObject(ChatDocument::class.java) ?: return
+        val chatDocument = snapshot.toObject(ChatDocument::class.java) ?:throw IllegalStateException()
 
         val lastMsg = chatDocument.lastMessage ?: return
 

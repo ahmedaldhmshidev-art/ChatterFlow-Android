@@ -1,6 +1,5 @@
-package com.example.chatapp.c_listChatUser.viewModelList
+package com.example.chatapp.c_listChatUser.ui_List
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -8,14 +7,14 @@ import com.example.chatapp.a_authentication.SessionManager
 import com.example.chatapp.a_authentication.modelAuth.User
 import com.example.chatapp.a_authentication.useCase.LogoutUseCase
 import com.example.chatapp.b_user_list.repository_user_list.RepositoryUserList
+import com.example.chatapp.c_listChatUser.utiles.listChatError.ListChatError
+import com.example.chatapp.c_listChatUser.utiles.listChatError.ListChatErrorMapper
 import com.example.chatapp.c_listChatUser.modelList.ListChatUsers
 import com.example.chatapp.c_listChatUser.repository_List.ListChatRepository
-import com.example.chatapp.c_listChatUser.stateAndEventList.ListChatEvent
-import com.example.chatapp.c_listChatUser.stateAndEventList.ListChatState
-import com.example.chatapp.c_listChatUser.useCase.DeleteChatUseCase
-import com.example.chatapp.e_messageChatId.b_data.repository_msg.MessageRepository
+import com.example.chatapp.c_listChatUser.utiles.stateAndEventList.ListChatEvent
+import com.example.chatapp.c_listChatUser.utiles.stateAndEventList.ListChatState
+import com.example.chatapp.c_listChatUser.repository_List.useCase.DeleteChatUseCase
 import com.example.chatapp.mapper.toListChatUsers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -30,10 +29,8 @@ class ListChatViewModel(
     private val sessionManager: SessionManager,
     private val deleteChatUseCase: DeleteChatUseCase,
     private val logoutUseCase: LogoutUseCase,
+) : ViewModel() {
 
-    ) : ViewModel() {
-
-    private lateinit var currentUserId: String
 
     private val _listChatState = MutableStateFlow<ListChatState>(ListChatState.Idle)
     val listChatState = _listChatState.asStateFlow()
@@ -43,22 +40,22 @@ class ListChatViewModel(
 
     private var allChats: List<ListChatUsers> = emptyList()
     fun getAllChat() {
-        currentUserId = sessionManager.currentUserId ?: return
+        val currentUserId = sessionManager.currentUserId ?: run {
+            _listChatState.value = ListChatState.Error(ListChatError.NoSession)
+            return
+        }
         viewModelScope.launch {
             chatRepository.getAllChat(currentUserId)
                 .onStart {
                     _listChatState.value = ListChatState.Loading
                 }
-                .catch {
-                    _chatMessageEvent.emit(
-                        ListChatEvent.Error(it.message ?: "ErrorOnGetAllChat")
-                    )
+                .catch { throwable ->
+                    _listChatState.value = ListChatState.Error(ListChatErrorMapper.map(throwable))
                 }
                 .collect { chats ->
                     val items = chats.map { chat ->
                         val otherUserId = chat.participants.first { it != currentUserId }
                         val user = userRepository.getUserById(otherUserId)
-
                         chat.toListChatUsers(
                             user = user ?: User(), currentUserId = currentUserId
                         )
@@ -76,17 +73,12 @@ class ListChatViewModel(
 
     fun deleteChat(chatId: String) {
         viewModelScope.launch {
-            deleteChatUseCase(chatId = chatId)
-                .onSuccess {
-                    _chatMessageEvent.emit(
-                        ListChatEvent.SuccessDeleteChat
-                    )
-                }
-                .onFailure {
-                    _chatMessageEvent.emit(
-                        ListChatEvent.Error(it.message ?: "Error on delete chat")
-                    )
-                }
+            try {
+                deleteChatUseCase(chatId)
+                _chatMessageEvent.emit(ListChatEvent.DeleteChatSuccess)
+            } catch (e: Throwable) {
+                _chatMessageEvent.emit(ListChatEvent.ShowError(ListChatErrorMapper.map(e)))
+            }
         }
     }
 
@@ -100,7 +92,7 @@ class ListChatViewModel(
     fun onUserClick(user: ListChatUsers) {
         viewModelScope.launch {
             _chatMessageEvent.emit(
-                ListChatEvent.NavigationToMessageListChat(
+                ListChatEvent.OpenChatMessage(
                     userUid = user.userId
                 )
             )
@@ -122,10 +114,10 @@ class ListChatViewModel(
         val filterChats = allChats.filter {
             it.userName.contains(query, ignoreCase = true)
         }
-        if (filterChats.isEmpty()) {
-            _listChatState.value = ListChatState.SearchEmpty(query)
+        _listChatState.value = if (filterChats.isEmpty()) {
+            ListChatState.SearchEmpty(query)
         } else {
-            _listChatState.value = ListChatState.Success(filterChats)
+            ListChatState.Success(filterChats)
         }
     }
 }

@@ -1,19 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical"
     android:padding="20dp">
-    <!-- Name -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardGeneralErrorEditProfileId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:strokeColor="?attr/colorError"
+        app:strokeWidth="1dp"
+        app:cardElevation="0dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgGeneralErrorEditProfileId"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_cancel"
+                android:layout_margin="3dp"
+                android:backgroundTint="#603436"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.ChatAppCircle" />
+
+            <TextView
+                android:id="@+id/tvGeneralErrorEditProfileId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorError"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_margin="3dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/name_account"
+        android:layout_marginTop="14dp"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusTopStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
@@ -40,16 +74,12 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginTop="2dp"
         android:visibility="gone" />
-    <!-- Bio -->
+
     <com.google.android.material.textfield.TextInputLayout
-
         android:id="@+id/bioLayout"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="16dp"
-
+        android:layout_marginTop="10dp"
         android:hint="@string/bio_account"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusTopStart="16dp"
@@ -58,17 +88,13 @@
         app:boxCornerRadiusBottomEnd="16dp"
         app:startIconDrawable="@drawable/ic_info_menu">
 
-
         <com.google.android.material.textfield.TextInputEditText
-
             android:id="@+id/etBioDialogEditAccountId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
-            android:minLines="3"
+            android:minLines="2"
             android:maxLines="5"
             android:inputType="textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
-
-
 </LinearLayout>

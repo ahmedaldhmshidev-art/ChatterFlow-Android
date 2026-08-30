@@ -21,7 +21,7 @@ class ChatApplication : Application() {
     }
 
     private fun applySavedSettings() {
-        val preferencesManager = PreferencesManager(this)
+        val preferencesManager = appContainer.preferencesManager
 
         val language = runBlocking { preferencesManager.language.first() }
         val theme = runBlocking { preferencesManager.theme.first() }

@@ -7,57 +7,48 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-class ListChatRepository (private val firestore:FirebaseFirestore){
+class ListChatRepository(private val firestore: FirebaseFirestore) {
 
-    fun getAllChat(currentId:String): Flow<List<ChatDocument>> = callbackFlow {
+    fun getAllChat(currentId: String): Flow<List<ChatDocument>> = callbackFlow {
         val listener = firestore
             .collection("chats")
             .whereArrayContains("participants", currentId)
-            .addSnapshotListener {
-                    snapshot, error ->
+            .addSnapshotListener { snapshot, error ->
 
                 if (error != null) {
-                    trySend(emptyList())
+                    close(error)
                     return@addSnapshotListener
                 }
                 val chat = snapshot?.documents?.mapNotNull {
                     it.toObject(ChatDocument::class.java)
                 } ?: emptyList()
-
-                val order = chat.sortedByDescending { it.lastMessage?.timeLastMessage}
-
+                val order = chat.sortedByDescending { it.lastMessage?.timeLastMessage }
                 trySend(order)
             }
-
         awaitClose {
             listener.remove()
         }
     }
-    suspend fun deleteChat(chatId:String):Result<Unit>{
-        return try {
-            val chatRef = firestore
-                .collection("chats")
-                .document(chatId)
 
-            val messagesSnapshot = chatRef
-                .collection("messages")
-                .get()
-                .await()
+    suspend fun deleteChat(chatId: String) {
+        val chatRef = firestore
+            .collection("chats")
+            .document(chatId)
 
-            val batch = firestore.batch()
-            // مر عل جميع الرسائل وحذفها
-            for (document in messagesSnapshot.documents){
-                batch.delete(document.reference)
-            }
-            // حذف الdocument بعد حذف جميع الرسائل تبعه
-            batch.delete(chatRef)
-            // نفذ الحذف
-            batch.commit().await()
+        val messagesSnapshot = chatRef
+            .collection("messages")
+            .get()
+            .await()
 
-            Result.success(Unit)
+        val batch = firestore.batch()
+        // مر عل جميع الرسائل وحذفها
+        for (document in messagesSnapshot.documents) {
+            batch.delete(document.reference)
         }
-        catch (e:Exception){
-            Result.failure(e)
-        }
+        // حذف الdocument بعد حذف جميع الرسائل تبعه
+        batch.delete(chatRef)
+        // نفذ الحذف
+        batch.commit()
+            .await()
     }
 }

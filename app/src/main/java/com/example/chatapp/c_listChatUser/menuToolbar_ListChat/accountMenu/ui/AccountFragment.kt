@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,15 +18,138 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.chatapp.R
 import com.example.chatapp.a_application.appContainer
+import com.example.chatapp.a_authentication.modelAuth.User
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.accountError.AccountError
+import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.accountError.AccountErrorToString.toStringRes
 import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.uiState.AccountEvent
-import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.uiState.PasswordField
-import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.uiState.ProfileField
 import com.example.chatapp.databinding.FragmentAccountBinding
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
 class AccountFragment : Fragment() {
+
+    private fun showTextError(
+        textView: TextView?,
+        message: String
+    ) {
+        textView?.text = message
+        textView?.isVisible = true
+    }
+
+    private fun hideTextError(
+        textView: TextView?
+    ) {
+        textView?.text = null
+        textView?.isVisible = false
+    }
+
+    private fun showGeneralError(
+        card: MaterialCardView?,
+        textVew: TextView?,
+        messageRes: String
+    ) {
+        textVew?.text = messageRes
+        card?.isVisible = true
+    }
+
+    private fun hideGeneralError(
+        card: MaterialCardView?,
+        textVew: TextView?
+    ) {
+        card?.isVisible = false
+        textVew?.text = null
+    }
+
+    private fun renderFieldError(error: AccountError.Field) {
+        when (error) {
+            AccountError.Field.NameBlank -> {
+                showTextError(
+                    tvNameErrorProfile,
+                    getString(error.toStringRes())
+                )
+            }
+//            AccountError.Field.NameMustBeDifferent -> {
+//                showTextError(
+//                    tvNameErrorProfile,
+//                    getString(error.toStringRes())
+//                )
+//            }
+
+            AccountError.Field.CurrentPasswordBlank -> {
+                showTextError(
+                    tvCurrentChangePasswordError,
+                    getString(error.toStringRes())
+                )
+            }
+
+            AccountError.Field.NewPasswordBlank -> {
+                showTextError(
+                    tvNewChangePasswordError,
+                    getString(error.toStringRes())
+                )
+            }
+
+            AccountError.Field.NewPasswordTooShort -> {
+                showTextError(
+                    tvNewChangePasswordError,
+                    getString(error.toStringRes())
+                )
+            }
+
+            AccountError.Field.NewPasswordMustBeDifferent -> {
+                showTextError(
+                    tvNewChangePasswordError,
+                    getString(error.toStringRes())
+                )
+            }
+
+            AccountError.Field.ConfirmPasswordBlank -> {
+                showTextError(
+                    tvConfirmChangePasswordError,
+                    getString(error.toStringRes())
+                )
+            }
+
+            AccountError.Field.ConfirmPasswordDoesNotMatch -> {
+                showTextError(
+                    tvConfirmChangePasswordError,
+                    getString(error.toStringRes())
+                )
+            }
+        }
+    }
+
+    private fun cleanAllFieldErrors() {
+        hideTextError(tvNameErrorProfile)
+        hideGeneralError(
+            cardGeneralErrorEditProfile, tvGeneralErrorEditProfile
+        )
+
+        hideTextError(tvCurrentChangePasswordError)
+        hideTextError(tvNewChangePasswordError)
+        hideTextError(tvConfirmChangePasswordError)
+        hideGeneralError(
+            cardGeneralChangePasswordError, tvGeneralChangePasswordError
+        )
+    }
+
+    private fun renderUser(user: User?) {
+        user ?: return
+        binding.tvNameAccountId.text = user.name
+        binding.tvEmailAccountId.text = user.email
+        binding.tvUidAccountId.text = user.uid
+        binding.tvBioAccountId.text = user.bio
+    }
+
+    private fun renderLoading(loading: Boolean) {
+        binding.progressAccountId.isVisible = loading
+        binding.nestedScrollViewAccountId.isVisible = !loading
+    }
+
 
     private var _binding: FragmentAccountBinding? = null
     private val binding get() = _binding!!
@@ -41,24 +165,17 @@ class AccountFragment : Fragment() {
         AccountViewModelFactory(
             getAccountCurrentUseCase = requireContext().appContainer.getAccountCurrentUseCase,
             updateInfoAccountUseCase = requireContext().appContainer.updateInfoAccountUseCase,
-            changePassword = requireContext().appContainer.changePasswordUseCase,
+            changePasswordUseCase = requireContext().appContainer.changePasswordUseCase,
             logoutUseCase = requireContext().appContainer.logoutUseCase
-
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupClick()
         observeState()
         observeEvents()
-
         accountViewModel.loadCurrentUser()
-
-        binding.toolbarAccountId.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
     }
 
     private fun observeEvents() {
@@ -66,83 +183,29 @@ class AccountFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 accountViewModel.event.collect { event ->
                     when (event) {
-                        AccountEvent.SaveSuccessEditProfile -> {
-                            showToast(getString(R.string.save_success))
+                        AccountEvent.ProfileUpdated -> {
+                            showToast(getString(R.string.success_edited_profile))
                             editProfileDialog?.dismiss()
                         }
 
-                        is AccountEvent.Error -> {
-                            showToast(event.message)
-                        }
-
-                        AccountEvent.NavigationToLogin -> {
-                            findNavController().navigate(
-                                R.id.authentication_nav_host,
-                                null,
-                                NavOptions.Builder().setPopUpTo(R.id.list_chats_nav_graph, true)
-                                    .build()
-                            )
-                        }
-
-                        AccountEvent.PasswordChangedSuccess -> {
+                        AccountEvent.PasswordChanged -> {
                             showToast(getString(R.string.success_change_password_account))
                             changePasswordDialog?.dismiss()
                         }
 
-                        is AccountEvent.ErrorProfile -> {
-                            when (event.field) {
-                                ProfileField.NAME_BLANK -> {
-                                    tvNameErrorProfile?.text =
-                                        getString(R.string.error_blank_name_profile)
-                                    tvNameErrorProfile?.visibility = View.VISIBLE
-                                }
-
-                                ProfileField.NEW_NAME_MUST_BE_DIFFERENT -> {
-                                    tvNameErrorProfile?.text =
-                                        getString(R.string.error_new_name_must_be_different)
-                                    tvNameErrorProfile?.visibility = View.VISIBLE
-                                }
-                            }
+                        AccountEvent.NoChangedProfile -> {
+                            showToast(getString(R.string.error_no_changed_profile))
+                            editProfileDialog?.dismiss()
                         }
 
-                        is AccountEvent.ErrorPassword -> {
-                            when (event.field) {
-                                PasswordField.CURRENT_PASSWORD_BLANK -> {
-                                    tvCurrentPasswordError?.text =
-                                        getString(R.string.error_blank_current_password)
-                                    tvCurrentPasswordError?.visibility = View.VISIBLE
-                                }
-
-                                PasswordField.NEW_PASSWORD_BLANK -> {
-                                    tvNewPasswordError?.text =
-                                        getString(R.string.error_blank_new_password)
-                                    tvNewPasswordError?.visibility = View.VISIBLE
-                                }
-
-                                PasswordField.CONFIRM_PASSWORD_BLANK -> {
-                                    tvConfirmPasswordError?.text =
-                                        getString(R.string.error_blank_confirm_password)
-                                    tvConfirmPasswordError?.visibility = View.VISIBLE
-                                }
-
-                                PasswordField.NEW_PASSWORD_MUST_BE_DIFFERENT_CURRENT -> {
-                                    tvNewPasswordError?.text =
-                                        getString(R.string.error_confirm_password_different)
-                                    tvNewPasswordError?.visibility = View.VISIBLE
-                                }
-
-                                PasswordField.NEW_PASSWORD_TOO_SHORT_6 -> {
-                                    tvNewPasswordError?.text =
-                                        getString(R.string.error_new_password_less_6)
-                                    tvNewPasswordError?.visibility = View.VISIBLE
-                                }
-
-                                PasswordField.CONFIRM_PASSWORD_DOES_NOT_MATCH -> {
-                                    tvConfirmPasswordError?.text =
-                                        getString(R.string.error_confirm_password_does_not_match)
-                                    tvConfirmPasswordError?.visibility = View.VISIBLE
-                                }
-                            }
+                        AccountEvent.NavigationToLogin -> {
+                            findNavController()
+                                .navigate(
+                                    R.id.authentication_nav_host, null,
+                                    NavOptions.Builder()
+                                        .setPopUpTo(R.id.list_chats_nav_graph, true)
+                                        .build()
+                                )
                         }
                     }
                 }
@@ -150,7 +213,67 @@ class AccountFragment : Fragment() {
         }
     }
 
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                accountViewModel.accountState.collect { state ->
+                    renderLoading(state.isLoading)
+                    renderUser(state.user)
+                    renderError(state.error)
+                }
+            }
+        }
+    }
+
+    private fun renderError(error: AccountError?) {
+        cleanAllFieldErrors()
+        error ?: return
+        when (error) {
+            is AccountError.Field -> {
+                renderFieldError(error)
+            }
+
+            is AccountError.General -> {
+                renderGeneralError(error)
+            }
+        }
+    }
+
+    private var activeDialog: AccountDialog? = null
+
+    enum class AccountDialog {
+        EDIT_PROFILE,
+        CHANGE_PASSWORD
+    }
+
+    private fun renderGeneralError(error: AccountError.General) {
+        val messageRes = getString(error.toStringRes())
+        when (activeDialog) {
+            AccountDialog.EDIT_PROFILE -> {
+                showGeneralError(
+                    card = cardGeneralErrorEditProfile,
+                    textVew = tvGeneralErrorEditProfile,
+                    messageRes = messageRes
+                )
+            }
+
+            AccountDialog.CHANGE_PASSWORD -> {
+                showGeneralError(
+                    card = cardGeneralChangePasswordError,
+                    textVew = tvGeneralChangePasswordError,
+                    messageRes = messageRes
+                )
+            }
+
+            null -> Unit
+        }
+    }
+
+
     private fun setupClick() {
+        binding.toolbarAccountId.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.btnEditProfileAccountId.setOnClickListener {
             showEditAccountDialog()
         }
@@ -177,21 +300,36 @@ class AccountFragment : Fragment() {
     }
 
     private var changePasswordDialog: AlertDialog? = null
-    private var tvCurrentPasswordError: TextView? = null
-    private var tvNewPasswordError: TextView? = null
-    private var tvConfirmPasswordError: TextView? = null
+    private var tvCurrentChangePasswordError: TextView? = null
+    private var tvNewChangePasswordError: TextView? = null
+    private var tvConfirmChangePasswordError: TextView? = null
+    private var cardGeneralChangePasswordError: MaterialCardView? = null
+    private var imgGeneralChangePasswordError: ImageView? = null
+    private var tvGeneralChangePasswordError: TextView? = null
 
     private fun showChangePasswordDialog() {
+
+        activeDialog = AccountDialog.CHANGE_PASSWORD
+        accountViewModel.clearError()
+
         val dialogShow = layoutInflater.inflate(
             R.layout.dialog_change_password, null
         )
-        tvCurrentPasswordError = dialogShow.findViewById(R.id.tvCurrentPasswordErrorId)
-        tvNewPasswordError = dialogShow.findViewById(R.id.tvNewPasswordErrorId)
-        tvConfirmPasswordError = dialogShow.findViewById(R.id.tvConfirmPasswordErrorId)
+        cardGeneralChangePasswordError =
+            dialogShow.findViewById(R.id.cardGeneralChangePasswordErrorId)
+        imgGeneralChangePasswordError =
+            dialogShow.findViewById(R.id.imgGeneralChangePasswordErrorId)
+        tvGeneralChangePasswordError = dialogShow.findViewById(R.id.tvGeneralChangePasswordErrorId)
+        tvCurrentChangePasswordError = dialogShow.findViewById(R.id.tvCurrentPasswordErrorId)
+        tvNewChangePasswordError = dialogShow.findViewById(R.id.tvNewPasswordErrorId)
+        tvConfirmChangePasswordError = dialogShow.findViewById(R.id.tvConfirmPasswordErrorId)
         val currentPassword = dialogShow.findViewById<TextInputEditText>(R.id.etCurrentPassword)
         val newPassword = dialogShow.findViewById<TextInputEditText>(R.id.etNewPassword)
         val confirmPassword = dialogShow.findViewById<TextInputEditText>(R.id.etConfirmPassword)
 
+        imgGeneralChangePasswordError?.setOnClickListener {
+            hideGeneralError(cardGeneralChangePasswordError, tvGeneralChangePasswordError)
+        }
 
         changePasswordDialog =
             MaterialAlertDialogBuilder(requireContext())
@@ -201,33 +339,54 @@ class AccountFragment : Fragment() {
                 .setPositiveButton(R.string.save, null)
                 .create()
 
+        changePasswordDialog?.setOnDismissListener {
+            activeDialog = null
+            tvCurrentChangePasswordError = null
+            tvNewChangePasswordError = null
+            tvConfirmChangePasswordError = null
+            cardGeneralChangePasswordError = null
+            tvGeneralChangePasswordError = null
+
+            accountViewModel.clearError()
+        }
         changePasswordDialog?.show()
         changePasswordDialog?.getButton(AlertDialog.BUTTON_POSITIVE)
             ?.setOnClickListener {
                 accountViewModel.changePassword(
-                    currentPassword = currentPassword.text.toString().trim(),
-                    newPassword = newPassword.text.toString().trim(),
-                    confirmPassword = confirmPassword.text.toString().trim()
+                    currentPassword = currentPassword.text.toString(),
+                    newPassword = newPassword.text.toString(),
+                    confirmPassword = confirmPassword.text.toString()
                 )
             }
     }
 
-
     private var tvNameErrorProfile: TextView? = null
     private var editProfileDialog: AlertDialog? = null
+    private var cardGeneralErrorEditProfile: MaterialCardView? = null
+    private var tvGeneralErrorEditProfile: TextView? = null
+    private var imgGeneralErrorEditProfile: ShapeableImageView? = null
 
     private fun showEditAccountDialog() {
+
+        activeDialog = AccountDialog.EDIT_PROFILE
+        accountViewModel.clearError()
+
         val dialogView = layoutInflater.inflate(
             R.layout.dialog_edit_account, null
         )
+        cardGeneralErrorEditProfile = dialogView.findViewById(R.id.cardGeneralErrorEditProfileId)
+        imgGeneralErrorEditProfile = dialogView.findViewById(R.id.imgGeneralErrorEditProfileId)
+        tvGeneralErrorEditProfile = dialogView.findViewById(R.id.tvGeneralErrorEditProfileId)
         tvNameErrorProfile = dialogView.findViewById(R.id.tvNameAccountErrorId)
         val etName = dialogView.findViewById<TextInputEditText>(R.id.etNameDialogEditAccountId)
         val etBio = dialogView.findViewById<TextInputEditText>(R.id.etBioDialogEditAccountId)
-
+        imgGeneralErrorEditProfile?.setOnClickListener {
+            hideGeneralError(cardGeneralErrorEditProfile, tvGeneralErrorEditProfile)
+        }
         val user = accountViewModel.accountState.value.user
 
-        etName.setText(user?.name ?: "")
-        etBio.setText(user?.bio ?: "")
+        etName.setText(user?.name.orEmpty())
+        etBio.setText(user?.bio.orEmpty())
 
         editProfileDialog =
             MaterialAlertDialogBuilder(requireContext())
@@ -236,43 +395,32 @@ class AccountFragment : Fragment() {
                 .setNegativeButton(getString(R.string.btn_cancel), null)
                 .setPositiveButton(getString(R.string.save), null)
                 .create()
+
+        editProfileDialog?.setOnDismissListener {
+            activeDialog = null
+            tvNameErrorProfile = null
+            cardGeneralErrorEditProfile = null
+            tvGeneralErrorEditProfile = null
+
+            accountViewModel.clearError()
+        }
+
         editProfileDialog?.show()
         editProfileDialog?.getButton(AlertDialog.BUTTON_POSITIVE)
             ?.setOnClickListener {
-
                 accountViewModel.updateProfileAccount(
-                    oldName = user?.name ?: "",
+                    oldName = user?.name.orEmpty(),
                     newName = etName.text.toString(),
                     newBio = etBio.text.toString(),
+                    oldBio = user?.bio.orEmpty()
                 )
             }
     }
 
 
-    private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                accountViewModel.accountState.collect { state ->
-                    if (state.isLoading) {
-                        binding.progressAccountId.isVisible = true
-//                        binding.nestedScrollViewAccountId.isVisible = false
-                    } else {
-                        binding.progressAccountId.isVisible = false
-//                        binding.nestedScrollViewAccountId.isVisible = true
-                    }
-                    state.user?.let { user ->
-                        binding.tvNameAccountId.text = user.name
-                        binding.tvEmailAccountId.text = user.email
-                        binding.tvUidAccountId.text = user.uid
-                        binding.tvBioAccountId.text = user.bio
-                    }
-                }
-            }
-        }
-    }
-
     private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {

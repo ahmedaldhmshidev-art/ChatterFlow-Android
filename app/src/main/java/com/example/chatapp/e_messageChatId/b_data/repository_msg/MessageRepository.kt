@@ -15,8 +15,6 @@ class MessageRepository(private val firebaseStore : FirebaseFirestore) {
     suspend fun updateMsgStatusOnly(
         chatId: String , messageId:String , status:StatusMessage
     ){
-        if (messageId .isBlank()) return
-
       firebaseStore
           .collection("chats")
           .document(chatId)
@@ -26,24 +24,18 @@ class MessageRepository(private val firebaseStore : FirebaseFirestore) {
               "statusMessage" , status
           ).await()
     }
+
+
     // تعديل الرسالة كامل عند edite
-    suspend fun editeMessage(message: MessageText
-    ):MessageText? {
-        Log.d("editeMessageRepository","editeMessageRepositoryIsDelete:${message.deleted}, IsEdite:${message.edited}")
-        return try {
-            firebaseStore
-                .collection("chats")
-                .document(message.chatId)
-                .collection("messages")
-                .document(message.messageId)
-                .set(message)
-                .await()
-            message
-        }
-        catch (e:Exception){
-            Log.e("Error Edite message ! ","failed:" ,e)
-            null
-        }
+    suspend fun editeMessage(message: MessageText):MessageText {
+        firebaseStore
+            .collection("chats")
+            .document(message.chatId)
+            .collection("messages")
+            .document(message.messageId)
+            .set(message)
+            .await()
+        return message
     }
 
 
@@ -52,33 +44,28 @@ class MessageRepository(private val firebaseStore : FirebaseFirestore) {
     suspend fun getUnreadMessages(
     chatId: String, currentUserId:String
     ):List<MessageText> {
-        return try {
-           firebaseStore
+        return firebaseStore
                 .collection("chats")
                 .document(chatId)
                 .collection("messages")
                 .orderBy("timestamp", Query.Direction.ASCENDING) // ترتيب الرسال حسب الوقت
                 .whereEqualTo("chatId", chatId)
                 .whereEqualTo("receiverId", currentUserId)
-                .get().await()
+                .get()
+                .await()
                .documents.mapNotNull {
                     it.toObject(MessageText::class.java)
                 }
                 .filter {
                     it.statusMessage != StatusMessage.SEEN
                 }
-        }
-        catch (e: Exception) {
-            emptyList()
-        }
     }
 
-    fun getMessage(
-        chatId: String
-    ): Flow<List<MessageText>>
+    fun getMessage(chatId: String): Flow<List<MessageText>>
     = callbackFlow {
         val listener = firebaseStore
-            .collection("chats").document(chatId)
+            .collection("chats")
+            .document(chatId)
             .collection("messages")
             .orderBy("timestamp", Query.Direction.ASCENDING) // ترتيب الرسال حسب الوقت
             .addSnapshotListener { snapshot, error ->
@@ -108,40 +95,7 @@ class MessageRepository(private val firebaseStore : FirebaseFirestore) {
         snapshot.documents.forEach { document ->
             batch.delete(document.reference)
         }
-        batch.commit().await()
+        batch.commit()
+            .await()
     }
-
-
-//    suspend fun insert(messageText: MessageText):MessageText ? {
-//        val messageIdRef = firebaseStore
-//            .collection("chats")
-//            .document(messageText.chatId)
-//            .collection("messages")
-//            .document()  // توليد ID الرسالة
-//
-//        val messageWithId = messageText.copy(
-//            messageId = messageIdRef.id,
-//            )
-//        return try {
-//            messageIdRef.set(messageWithId).await()
-//            messageWithId
-//         }
-//        catch (e: Exception) {
-//            Log.e("Save_Error_insertRepo","insertError",e)
-//            null
-//        }
-//    }
-
-//    suspend fun updateAllMsg(
-//        message: MessageText
-//    ) {
-//        firebaseStore
-//            .collection("chats")
-//            .document(message.chatId)
-//            .collection("messages")
-//            .document(message.messageId)
-//            .set(message)
-//            .await()
-//    }
-
 }

@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:paddingHorizontal="@dimen/spacing_small"
     android:paddingVertical="3dp">
 
-
     <com.google.android.material.card.MaterialCardView
-
         android:id="@+id/bubbleSend"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="18dp"
@@ -22,9 +17,7 @@
         app:strokeColor="@color/cardview_shadow_end_color"
         app:cardBackgroundColor="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,21 +27,16 @@
             android:padding="10dp"
             app:cardBackgroundColor="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-
-
+            app:layout_constraintTop_toTopOf="parent">
             <!-- Message -->
-
             <TextView
-
                 android:id="@+id/tvMessageSend_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="280dp"
                 android:textColor="?attr/colorOnPrimary"
                 style="@style/TextAppearance.ChatApp.Body"
-                android:text="@string/msg_send"/>
+                android:text="@string/msg_send" />
 
 
             <!-- Edited -->
@@ -62,7 +50,7 @@
                 android:textStyle="italic"
                 android:textColor="?attr/colorOnPrimary"
                 android:alpha="0.7"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
             <!-- Time + Status -->
@@ -72,9 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|center_vertical"
-                android:orientation="horizontal"
-                >
-
+                android:orientation="horizontal">
 
                 <TextView
 
@@ -83,23 +69,18 @@
                     android:layout_height="wrap_content"
                     android:textSize="11sp"
                     android:text="10:23 pm"
-                    android:textColor="?attr/colorOnPrimary"/>
-                <TextView
+                    android:textColor="?attr/colorOnPrimary" />
 
+                <TextView
                     android:id="@+id/tv_StatusSend_itemSender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:textSize="11sp"
                     android:text="✔✔✔"
-                    android:textColor="?attr/colorOnPrimary"
-                    />
-
-
+                    android:textColor="?attr/colorOnPrimary" />
             </LinearLayout>
-
-
         </LinearLayout>
-
 
     </com.google.android.material.card.MaterialCardView>
 

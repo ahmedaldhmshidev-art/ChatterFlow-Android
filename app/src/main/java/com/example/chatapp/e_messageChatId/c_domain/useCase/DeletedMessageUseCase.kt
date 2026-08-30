@@ -7,10 +7,10 @@ class DeletedMessageUseCase(
     private val pipelineMsg: SyncPipelineMsg
 ) {
     suspend operator fun invoke(
-        message:MessageText
-    ):MessageText {
+        message: MessageText
+    ): MessageText {
         val deletedMsg = message.copy(
-            messageText = "🚫  تم حذف هذة الرسالة" ,
+//            messageText = "🚫  تم حذف هذة الرسالة" ,
             deleted = true
         )
         return pipelineMsg.onMessageEdited(deletedMsg)

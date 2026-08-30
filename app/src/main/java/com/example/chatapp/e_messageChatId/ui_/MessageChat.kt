@@ -22,6 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.a_application.appContainer
+import com.example.chatapp.d_chat_Document.utiles.chatDocumentError.ChatDocumentErrorUi
+import com.example.chatapp.d_chat_Document.utiles.uiStateEvent.ChatDocumentEvent
+import com.example.chatapp.d_chat_Document.utiles.uiStateEvent.ChatDocumentState
 import com.example.chatapp.d_chat_Document.viewModel_document.ChatDocumentInfoViewModel
 import com.example.chatapp.d_chat_Document.viewModel_document.ChatDocumentViewModelFactory
 import com.example.chatapp.databinding.FragmentMessageChatBinding
@@ -70,7 +73,8 @@ class MessageChat : Fragment() {
     private val chatDocumentViewModel: ChatDocumentInfoViewModel by viewModels {
         ChatDocumentViewModelFactory(
             repository = requireContext().appContainer.chatDocumentRepository,
-            sessionManager = requireContext().appContainer.sessionManager
+            initializeChatUseCase = requireContext().appContainer.initializeChatUseCase,
+            sessionManager = requireContext().appContainer.sessionManager,
         )
     }
 
@@ -94,27 +98,6 @@ class MessageChat : Fragment() {
 
         setupMenuToolbar()
 
-
-//
-//            menuHost.addMenuProvider(
-//                object : MenuProvider {
-//                    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                        menuInflater.inflate(
-//                            R.menu.menu_chat_message , menu)
-//                    }
-//                    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                        return  when(menuItem.itemId){
-//
-//                            R.id.info_menu_chatId ->{ showChatInfo()
-//                                true }
-//                            R.id.remove_menu_chatId ->{ showRemoveDialog()
-//                                true }
-//                            else -> false } }
-//                }
-//    , viewLifecycleOwner ,
-//                Lifecycle.State.RESUMED
-//            )
-
         initArguments()
         createChatDocument() //        انشا المحادثة عند الضغط عل المستخدم
         setupRecyclerView()
@@ -127,6 +110,49 @@ class MessageChat : Fragment() {
         msgViewModel.openChat(
             chatId = chatId, currentUserId = currentUserUid, otherUserId = otherUserId
         )
+        observerStateChatDocument()
+        observerEventChatDocument()
+    }
+
+    private fun observerEventChatDocument() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                chatDocumentViewModel.event.collect { event ->
+                    when (event) {
+                        is ChatDocumentEvent.Error -> {
+                            showToast(getString(ChatDocumentErrorUi.messageRef(event.error)))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observerStateChatDocument() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                chatDocumentViewModel.state.collect { state ->
+                    when (state) {
+                        ChatDocumentState.Idle -> {
+                            binding.progressMsgId.isVisible = false
+                        }
+
+                        ChatDocumentState.Loading -> {
+                            binding.progressMsgId.isVisible = true
+                        }
+
+                        ChatDocumentState.Success -> {
+                            binding.progressMsgId.isVisible = false
+                        }
+
+                        is ChatDocumentState.Error -> {
+                            binding.progressMsgId.isVisible = false
+                            showToast(getString(ChatDocumentErrorUi.messageRef(state.error)))
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setupMenuToolbar() {
@@ -250,7 +276,7 @@ class MessageChat : Fragment() {
                             binding.etWrightMessageId.clearFocus()
 
                             chatDocumentViewModel.stopOnTyping(
-                                chatId = chatId, currentUserUid
+                                chatId = chatId
                             )
                         }
                     }
@@ -274,19 +300,19 @@ class MessageChat : Fragment() {
     private fun setupTyping() {
         binding.etWrightMessageId.addTextChangedListener {
             chatDocumentViewModel.onTyping(
-                chatId = chatId, userId = currentUserUid
+                chatId = chatId
             )
         }
-        chatDocumentViewModel.getAllChatDocument(chatId = chatId)
+        chatDocumentViewModel.getChatDocument(chatId = chatId)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                chatDocumentViewModel.typingText.collect {
-                    if (it == null) {
-                        binding.tvTypingMsgId.visibility = View.GONE
-                    } else {
+                chatDocumentViewModel.isOtherUserTyping.collect { isTyping ->
+                    if (isTyping) {
                         binding.tvTypingMsgId.visibility = View.VISIBLE
-                        binding.tvTypingMsgId.text = it
+                        binding.tvTypingMsgId.text = getString(R.string.typing)
+                    } else {
+                        binding.tvTypingMsgId.visibility = View.GONE
                     }
                 }
             }
@@ -469,13 +495,15 @@ class MessageChat : Fragment() {
     }
 
     private fun dialogDeleteConfirm(message: MessageText) {
-
         MaterialAlertDialogBuilder(requireContext()) // كائن من مكتبة يعرض مربع حوار
             .setTitle(getString(R.string.title_delete_message))
             .setMessage(getString(R.string.delete_message))
             .setPositiveButton(getString(R.string.btn_yes_delete_message)) { // الزر الايجابي
                     _, _ ->
-                msgViewModel.deleteMessage(message = message)
+                val msg = message.copy(
+                    messageText = getString(R.string.message_deleted_by_other)
+                )
+                msgViewModel.deleteMessage(message = msg)
             }
             .setNegativeButton(getString(R.string.btn_cancel), null) // زر الالغاء
             .show()
@@ -499,7 +527,7 @@ class MessageChat : Fragment() {
         binding.etWrightMessageId.requestFocus()
     }
 
-    // التعديل الفعلي يتم هننا
+    // التعديل الفعلي يتم هنا
     private fun editingMessage() {
         val message = editingMessage ?: return // جلب الرسالة المراد تعديلها الي هذه المتغير
 
@@ -547,7 +575,7 @@ class MessageChat : Fragment() {
 
     override fun onDestroyView() {
         chatDocumentViewModel.stopOnTyping(
-            chatId = chatId, currentUserUid
+            chatId = chatId
         )
         msgViewModel.onClose()
         _binding = null

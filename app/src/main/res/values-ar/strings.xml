@@ -17,7 +17,7 @@
     <string name="et_password">كلمة المرور</string>
 
     <string name="btn_register">تسجيل</string>
-    <string name="btn_login">دخول</string>
+    <string name="btn_login">تسجيل الدخول</string>
     <string name="btn_logout">تسجيل الخروج</string>
 
     <string name="btn_to_login">لديك حساب بالفعل؟</string>
@@ -268,7 +268,7 @@ https://github.com/ahmedaldhmshidev-art
 </string>
 
 
-    <string name="save_success">
+    <string name="success_edited_profile">
 تم الحفظ بنجاح
 </string>
 
@@ -368,5 +368,15 @@ https://github.com/ahmedaldhmshidev-art
     <string name="error_new_name_must_be_different">الاسم الجديد يجب ان يكون مختلف.</string>
     <string name="error_no_chat_found">لاتوجد محادثة مطابقة.</string>
     <string name="error_no_user_found">لاتوجد مستخدم مطابقة.</string>
+
+    <string name="error_no_session">انتهت جلستك. يرجئ تسجيل الدخول مرة أخرئ.</string>
+    <string name="error_invalid_current_password">كلمة المرور الحالية غير صحيحة.</string>
+    <string name="error_new_password_must_be_different">يجب ان تختلف كلمة المرور الجديدة عن كلمة المرور الحالية.</string>
+    <string name="error_no_changed_profile">لم يتم اجراء أي تغييرات.</string>
+    <string name="error_permission_denied">ليس لديك صلاحية لتنفيذ هذه العملية.</string>
+
+    <string name="message_deleted_by_other">🚫 تم حذف هذة الرسالة.</string>
+    <string name="message_deleted_by_me">🚫 لقد حذفت هذة الرسالة.</string>
+
 
 </resources>

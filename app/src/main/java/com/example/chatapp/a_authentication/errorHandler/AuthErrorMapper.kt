@@ -1,4 +1,4 @@
-package com.example.chatapp.a_authentication.stateAndEventAuth
+package com.example.chatapp.a_authentication.errorHandler
 
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -8,19 +8,21 @@ import java.lang.Exception
 
 object AuthErrorMapper {
     fun mapError(exception: Exception): AuthError {
-        return when(exception){
+        return when (exception) {
             is FirebaseAuthUserCollisionException ->
                 AuthError.EmailAlreadyExists
+
             is FirebaseAuthWeakPasswordException ->
                 AuthError.WeakPassword
-            is FirebaseAuthInvalidCredentialsException->
+
+            is FirebaseAuthInvalidCredentialsException ->
                 AuthError.InvalidCredentials
-            is FirebaseNetworkException->
+
+            is FirebaseNetworkException ->
                 AuthError.NetworkError
+
             else ->
                 AuthError.Unknown
-
         }
-
     }
 }

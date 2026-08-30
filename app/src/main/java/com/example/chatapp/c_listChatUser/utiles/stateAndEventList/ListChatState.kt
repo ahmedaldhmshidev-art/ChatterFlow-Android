@@ -1,5 +1,6 @@
-package com.example.chatapp.c_listChatUser.stateAndEventList
+package com.example.chatapp.c_listChatUser.utiles.stateAndEventList
 
+import com.example.chatapp.c_listChatUser.utiles.listChatError.ListChatError
 import com.example.chatapp.c_listChatUser.modelList.ListChatUsers
 
 sealed interface ListChatState {
@@ -9,4 +10,6 @@ sealed interface ListChatState {
     data class Success(val users: List<ListChatUsers>) : ListChatState
 
     data class SearchEmpty(val query: String) : ListChatState
+
+    data class Error(val error: ListChatError) : ListChatState
 }

@@ -15,7 +15,8 @@ import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.domin
 import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.accountMenu.domin.UpdateInfoAccountUseCase
 import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.AppSetting
 import com.example.chatapp.c_listChatUser.menuToolbar_ListChat.setting.PreferencesManager
-import com.example.chatapp.c_listChatUser.useCase.DeleteChatUseCase
+import com.example.chatapp.c_listChatUser.repository_List.useCase.DeleteChatUseCase
+import com.example.chatapp.d_chat_Document.utiles.uesCase.InitializeChatUseCase
 import com.example.chatapp.e_messageChatId.c_domain.delivered.DeliveredObserver
 import com.example.chatapp.e_messageChatId.c_domain.seen.SeenObserver
 import com.example.chatapp.mapper.StatusManager
@@ -72,7 +73,6 @@ class AppContainer(context: Context) {
         AuthRepository(
             auth = firebaseAuth,
             firestore = firestore,
-            sessionManager = sessionManager
         )
     }
 
@@ -173,6 +173,10 @@ class AppContainer(context: Context) {
         deliveredObserver.start()
     }
 
+    fun stopObserverDelivered() {
+        deliveredObserver.stop()
+    }
+
     val seenObserver: SeenObserver by lazy {
         SeenObserver(
             fireStore = firestore,
@@ -207,6 +211,9 @@ class AppContainer(context: Context) {
     }
     val changePasswordUseCase by lazy {
         ChangePasswordUseCase(authRepository)
+    }
+    val initializeChatUseCase by lazy {
+        InitializeChatUseCase(repository = chatDocumentRepository)
     }
 
     // logout

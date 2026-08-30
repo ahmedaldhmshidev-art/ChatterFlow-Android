@@ -1,9 +1,8 @@
-package com.example.chatapp.c_listChatUser.adapterList
+package com.example.chatapp.c_listChatUser.ui_List
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,7 @@ class AdapterListChat(
     private val onDeleteChat: (chatId: String, view: View) -> Unit,
 ) :
     ListAdapter<ListChatUsers, AdapterListChat.HolderListChat>(ListChatDiffUtil()) {
-    inner class HolderListChat(
+    class HolderListChat(
         private val binding: CardItemListChatBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
@@ -45,11 +44,6 @@ class AdapterListChat(
                 binding.tvStatusItemListChatId.visibility = View.VISIBLE
             } else {
                 binding.tvStatusItemListChatId.visibility = View.GONE
-            }
-
-            binding.root.setOnLongClickListener {
-                onDeleteChat(chat.chatId, binding.root)
-                true
             }
         }
 
@@ -78,7 +72,10 @@ class AdapterListChat(
 
         holder.itemView.setOnClickListener {
             navigationToMessage(chat)
-
+        }
+        holder.itemView.setOnLongClickListener {
+            onDeleteChat(chat.chatId, holder.itemView)
+            true
         }
     }
 }

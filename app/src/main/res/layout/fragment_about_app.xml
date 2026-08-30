@@ -1,58 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <!-- Toolbar -->
-
     <com.google.android.material.appbar.MaterialToolbar
-
         android:id="@+id/toolbar_about_chat_id"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/back_toolbar_chat"
         app:title="@string/about_title" />
 
-
     <!-- Content -->
-
     <androidx.core.widget.NestedScrollView
-
-
         android:layout_width="match_parent"
-
         android:layout_height="0dp"
-
         android:fillViewport="true"
-
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/toolbar_about_chat_id">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
-
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-
             android:padding="20dp">
 
-
             <!-- Logo -->
-
-
             <com.google.android.material.imageview.ShapeableImageView
-
                 android:id="@+id/imgLogo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -62,12 +38,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.ChatAppCircle" />
 
-
             <!-- App Name -->
-
-
             <TextView
-
                 android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,14 +47,12 @@
                 android:text="@string/app_name"
                 android:textSize="26sp"
                 android:textStyle="bold"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imgLogo" />
 
             <!-- Version -->
             <TextView
-
                 android:id="@+id/tvVersion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,16 +62,13 @@
                 app:layout_constraintTop_toBottomOf="@id/tvAppName" />
             <!-- About Card -->
             <com.google.android.material.card.MaterialCardView
-
                 android:id="@+id/cardAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 app:cardCornerRadius="@dimen/radius_large"
                 app:strokeColor="@color/cardview_shadow_end_color"
-
                 app:layout_constraintTop_toBottomOf="@id/tvVersion">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,249 +88,111 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/about_description" />
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Developer Card -->
             <com.google.android.material.card.MaterialCardView
-
-
                 android:id="@+id/cardDeveloper"
-
                 app:strokeColor="@color/cardview_shadow_end_color"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 app:layout_constraintTop_toBottomOf="@id/cardAbout">
 
-
                 <LinearLayout
-
-
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-
-
                     android:orientation="vertical"
-
                     android:padding="@dimen/spacing_medium">
 
-
                     <TextView
-
-
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
-
-
                         android:text="@string/developer_title"
-
                         android:textSize="18sp"
-
                         android:textStyle="bold" />
 
-
                     <TextView
-
                         android:id="@+id/tvDeveloperName"
-
-
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
-
-
                         android:layout_marginTop="10dp"
-
                         android:text="@string/developer_name" />
 
-
                     <TextView
-
-
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
-
-
                         android:text="@string/developer_role" />
 
-
                 </LinearLayout>
-
-
             </com.google.android.material.card.MaterialCardView>
-
 
             <!-- Technology Card -->
-
-
             <com.google.android.material.card.MaterialCardView
-
-
                 android:id="@+id/cardTechnology"
-
-
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
-
-
                 android:layout_marginTop="@dimen/spacing_medium"
-
-
                 app:layout_constraintTop_toBottomOf="@id/cardDeveloper">
 
-
                 <TextView
-
-
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-
-
                     android:padding="20dp"
-
-
                     android:text="@string/technologies" />
-
-
             </com.google.android.material.card.MaterialCardView>
-
 
             <!-- Contact Card -->
-
-
             <com.google.android.material.card.MaterialCardView
-
-
                 android:id="@+id/cardContact"
-
-
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
-
-
                 android:layout_marginTop="@dimen/spacing_medium"
-
                 app:strokeColor="@color/cardview_shadow_end_color"
-
-
                 app:layout_constraintTop_toBottomOf="@id/cardTechnology">
 
-
                 <LinearLayout
-
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:orientation="vertical"
-
                     android:padding="@dimen/spacing_medium">
 
-
                     <TextView
-
-
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
-
-
                         android:text="@string/contact_title"
-
-
                         android:textSize="18sp"
-
                         android:textStyle="bold" />
 
-
                     <com.google.android.material.button.MaterialButton
-
-
                         android:id="@+id/btnEmail"
-
-
                         style="@style/Widget.Material3.Button.TextButton"
-
-
                         android:layout_width="match_parent"
-
                         android:gravity="center_vertical"
-
                         android:layout_height="wrap_content"
-
-
                         android:text="@string/email" />
 
-
                     <com.google.android.material.button.MaterialButton
-
-
                         android:id="@+id/btnGithub"
-
-
                         android:gravity="center_vertical"
                         style="@style/Widget.Material3.Button.TextButton"
-
-
                         android:layout_width="match_parent"
-
-
                         android:layout_height="wrap_content"
-
-
                         android:text="@string/github" />
-
-
                 </LinearLayout>
-
-
             </com.google.android.material.card.MaterialCardView>
-
-
             <!-- Copyright -->
-
-
             <TextView
-
-
                 android:id="@+id/tvCopyright"
-
-
                 android:layout_width="wrap_content"
-
-
                 android:layout_height="wrap_content"
-
-
                 android:layout_marginTop="@dimen/spacing_large"
-
-
                 android:text="@string/copyright"
-
-
                 app:layout_constraintEnd_toEndOf="parent"
-
-
                 app:layout_constraintStart_toStartOf="parent"
-
-
                 app:layout_constraintTop_toBottomOf="@id/cardContact" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.core.widget.NestedScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
