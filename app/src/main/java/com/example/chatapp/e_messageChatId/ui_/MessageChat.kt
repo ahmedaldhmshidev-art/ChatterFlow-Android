@@ -28,6 +28,7 @@ import com.example.chatapp.d_chat_Document.utiles.uiStateEvent.ChatDocumentState
 import com.example.chatapp.d_chat_Document.viewModel_document.ChatDocumentInfoViewModel
 import com.example.chatapp.d_chat_Document.viewModel_document.ChatDocumentViewModelFactory
 import com.example.chatapp.databinding.FragmentMessageChatBinding
+import com.example.chatapp.e_messageChatId.Error.MessageErrorUi
 import com.example.chatapp.e_messageChatId.a_model_msg.MessageText
 import com.example.chatapp.e_messageChatId.ui_.menu.ActionMessage
 import com.example.chatapp.e_messageChatId.stateAndEvent_msg.ChatScreenState
@@ -339,7 +340,7 @@ class MessageChat : Fragment() {
                 msgViewModel.event.collect { event ->
                     when (event) {
                         is MessageEvent.ShowError -> {
-                            showToast(message = event.messageError)
+                            showToast(message = getString(MessageErrorUi.getErrorMessage(error = event.messageError)))
                         }
 
                         is MessageEvent.EditSuccess -> {

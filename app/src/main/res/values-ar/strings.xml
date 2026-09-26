@@ -379,4 +379,36 @@ https://github.com/ahmedaldhmshidev-art
     <string name="message_deleted_by_me">🚫 لقد حذفت هذة الرسالة.</string>
 
 
+    <string name="error_offline">
+    لا يوجد اتصال بالإنترنت. حاول مرة أخرى.
+</string>
+
+    <string name="error_not_found">
+    لم يتم العثور على البيانات المطلوبة.
+</string>
+
+    <string name="error_failed_precondition">
+    تعذر تنفيذ العملية حاليًا. حاول مرة أخرى.
+</string>
+
+    <string name="error_aborted">
+    تعذرت العملية. حاول مرة أخرى.
+</string>
+
+    <string name="error_deadline_exceeded">
+    انتهى وقت الاتصال بالخادم.
+</string>
+
+    <string name="error_authentication">
+    حدث خطأ أثناء التحقق من الحساب.
+</string>
+
+    <string name="error_network">
+    تعذر الاتصال بالإنترنت. تحقق من اتصالك وحاول مرة أخرى.
+</string>
+
+    <string name="error_unknown">
+    حدث خطأ غير متوقع. حاول مرة أخرى.
+</string>
+
 </resources>

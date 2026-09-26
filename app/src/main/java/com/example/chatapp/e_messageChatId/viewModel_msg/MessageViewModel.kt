@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.chatapp.e_messageChatId.Error.MessageErrorMapper
 import com.example.chatapp.e_messageChatId.a_model_msg.MessageText
 import com.example.chatapp.e_messageChatId.c_domain.seen.SeenObserver
 import com.example.chatapp.e_messageChatId.c_domain.useCase.DeletedMessageUseCase
@@ -16,6 +17,7 @@ import com.example.chatapp.e_messageChatId.c_domain.useCase.OpenChatUseCase
 import com.example.chatapp.e_messageChatId.c_domain.useCase.RemoveAllMessageUseCase
 import com.example.chatapp.e_messageChatId.c_domain.useCase.SendMsgUseCase
 import com.example.chatapp.e_messageChatId.stateAndEvent_msg.MessageEvent
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,8 +69,10 @@ class MessageViewModel(
                         )
                     }
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                Log.d("enexlkjhgfghjkl", "$e")
+                Log.e("Message_ViewModel", "Message_ViewModel Failed to open chat", e)
 
                 _chatState.update {
                     it.copy(
@@ -77,7 +81,7 @@ class MessageViewModel(
                 }
                 _event.emit(
                     MessageEvent.ShowError(
-                        e.message ?: "Open chat failed"
+                        messageError = MessageErrorMapper.map(e)
                     )
                 )
             }
@@ -103,11 +107,14 @@ class MessageViewModel(
                     msgText = messageText
                 )
                 _sendState.value = SendState.Success
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
+                Log.e("Message_ViewModel", "Message_ViewModel Failed to send message chat", e)
                 _sendState.value = SendState.Idle
                 _event.emit(
                     MessageEvent.ShowError(
-                        e.message ?: "Send message failed"
+                        messageError = MessageErrorMapper.map(e)
                     )
                 )
             }
@@ -122,8 +129,15 @@ class MessageViewModel(
                 _event.emit(
                     MessageEvent.EditSuccess
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                _event.emit(MessageEvent.ShowError(e.message ?: "Edited failed"))
+                Log.e("Message_ViewModel", "Message_ViewModel Failed to edit message chat", e)
+                _event.emit(
+                    MessageEvent.ShowError(
+                        messageError = MessageErrorMapper.map(e)
+                    )
+                )
             }
         }
     }
@@ -136,8 +150,15 @@ class MessageViewModel(
                 _event.emit(
                     MessageEvent.DeleteSuccess
                 )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                _event.emit(MessageEvent.ShowError(e.message ?: "Deleted failed"))
+                Log.e("Message_ViewModel", "Message_ViewModel Failed to delete message chat", e)
+                _event.emit(
+                    MessageEvent.ShowError(
+                        MessageErrorMapper.map(e)
+                    )
+                )
             }
         }
     }
@@ -152,14 +173,22 @@ class MessageViewModel(
     // remove all message
     fun removeAllMessage(chatId: String, currentUserId: String) {
         viewModelScope.launch {
-            removeAllMessageUseCase(
-                chatId = chatId, currentUserId = currentUserId
-            ).onSuccess {
+            try {
+                removeAllMessageUseCase(
+                    chatId = chatId, currentUserId = currentUserId
+                )
                 _event.emit(MessageEvent.RemoveAllMessageSuccess)
+
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.e("Message_ViewModel", "Message_ViewModel Failed to removeAllMessage ", e)
+                _event.emit(
+                    MessageEvent.ShowError(
+                        messageError = MessageErrorMapper.map(e)
+                    )
+                )
             }
-                .onFailure {
-                    _event.emit(MessageEvent.ShowError("failure to remove all message"))
-                }
         }
     }
 

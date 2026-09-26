@@ -1,5 +1,6 @@
 package com.example.chatapp.b_user_list.viewModel_user_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -42,11 +43,15 @@ class ViewModelUserList(
                 .onStart {
                     _stateUserList.value = StateUserList.Loading
                 }.catch { exception ->
+                    Log.e(
+                        "listUser_ViewModel",
+                        "listUser_ViewModel Failed to getAllUsers ",
+                        exception
+                    )
                     _stateUserList.value = StateUserList.Error(UserListErrorMapper.map(exception))
                 }
                 .collect { users ->
                     allUsers = users
-
                     if (users.isEmpty()) {
                         _stateUserList.value = StateUserList.Empty
                     } else {

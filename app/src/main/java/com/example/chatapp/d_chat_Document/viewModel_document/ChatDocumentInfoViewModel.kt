@@ -46,9 +46,12 @@ class ChatDocumentInfoViewModel(
                 initializeChatUseCase(chatId, participants)
                 _state.value = ChatDocumentState.Success
             } catch (e: Throwable) {
+                Log.e(
+                    "chatDocument_ViewModel",
+                    "chatDocument_ViewModel Failed to createChatDocumentIfNotExist",
+                    e
+                )
                 _state.value = ChatDocumentState.Error(ChatDocumentErrorMapper.map(e))
-                Log.d("enexlkjhgfghjkl", "$e")
-
             }
         }
     }
@@ -61,6 +64,11 @@ class ChatDocumentInfoViewModel(
         viewModelScope.launch {
             repository.getChatDocument(chatId)
                 .catch { throwable ->
+                    Log.e(
+                        "chatDocument_ViewModel",
+                        "chatDocument_ViewModel Failed to getChatDocument",
+                        throwable
+                    )
                     _event.emit(ChatDocumentEvent.Error(ChatDocumentErrorMapper.map(throwable)))
                 }
                 .collect { chat ->
@@ -84,14 +92,11 @@ class ChatDocumentInfoViewModel(
     // typing
     private var typingJob: Job? = null
     fun onTyping(chatId: String) {
-
         val currentUserId = sessionManager.currentUserId ?: run {
             _state.value = ChatDocumentState.Error(ChatDocumentError.NoSession)
             return
         }
-
         typingJob?.cancel()
-
         typingJob = viewModelScope.launch {
             try {
                 repository.updateTyping(
@@ -107,6 +112,7 @@ class ChatDocumentInfoViewModel(
                     isTyping = false
                 )
             } catch (e: Throwable) {
+                Log.e("chatDocument_ViewModel", "chatDocument_ViewModel Failed to onTyping", e)
                 _event.emit(ChatDocumentEvent.Error(ChatDocumentErrorMapper.map(e)))
             }
         }
@@ -127,6 +133,7 @@ class ChatDocumentInfoViewModel(
                     isTyping = false
                 )
             } catch (e: Throwable) {
+                Log.e("chatDocument_ViewModel", "chatDocument_ViewModel Failed to stopOnTyping", e)
                 _event.emit(ChatDocumentEvent.Error(ChatDocumentErrorMapper.map(e)))
             }
         }

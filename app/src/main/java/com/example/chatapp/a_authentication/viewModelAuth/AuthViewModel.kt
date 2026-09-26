@@ -1,5 +1,6 @@
 package com.example.chatapp.a_authentication.viewModelAuth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -20,9 +21,10 @@ class AuthViewModel(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
 ) : ViewModel() {
-    private fun setError(error: AuthError){
+    private fun setError(error: AuthError) {
         _authState.value = AuthState.Error(error)
     }
+
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val authState = _authState.asStateFlow()
 
@@ -32,17 +34,20 @@ class AuthViewModel(
     // create account
     fun registerUser(nameR: String, emailR: String, passwordR: String) {
         val name = nameR.trim()
-        val email =emailR.trim()
+        val email = emailR.trim()
         val password = passwordR.trim()
         when {
             name.isBlank() -> {
                 setError(AuthError.EmptyName)
                 return
             }
+
             email.isBlank() -> {
                 setError(AuthError.EmptyEmail)
+                return
             }
-            password.isBlank() ->{
+
+            password.isBlank() -> {
                 setError(AuthError.EmptyPassword)
                 return
             }
@@ -54,6 +59,7 @@ class AuthViewModel(
                 _authState.value = AuthState.Idle
                 _authEvent.emit(AuthEvent.NavigationToHomeListChat)
             } catch (e: Exception) {
+                Log.e("auth_ViewModel", "listUser_ViewModel Failed to registerUser ", e)
                 setError(AuthErrorMapper.mapError(e))
             }
         }
@@ -63,12 +69,13 @@ class AuthViewModel(
     fun signInUser(emailL: String, passwordL: String) {
         val email = emailL.trim()
         val password = passwordL.trim()
-        when{
-            email.isBlank()->{
+        when {
+            email.isBlank() -> {
                 setError(AuthError.EmptyEmail)
                 return
             }
-            password.isBlank() ->{
+
+            password.isBlank() -> {
                 setError(AuthError.EmptyPassword)
                 return
             }
@@ -80,6 +87,7 @@ class AuthViewModel(
                 _authState.value = AuthState.Idle
                 _authEvent.emit(AuthEvent.NavigationToHomeListChat)
             } catch (e: Exception) {
+                Log.e("auth_ViewModel", "listUser_ViewModel Failed to signInUser ", e)
                 setError(AuthErrorMapper.mapError(e))
             }
         }

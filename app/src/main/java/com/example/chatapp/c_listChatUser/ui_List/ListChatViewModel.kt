@@ -1,5 +1,6 @@
 package com.example.chatapp.c_listChatUser.ui_List
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -31,7 +32,6 @@ class ListChatViewModel(
     private val logoutUseCase: LogoutUseCase,
 ) : ViewModel() {
 
-
     private val _listChatState = MutableStateFlow<ListChatState>(ListChatState.Idle)
     val listChatState = _listChatState.asStateFlow()
 
@@ -50,6 +50,11 @@ class ListChatViewModel(
                     _listChatState.value = ListChatState.Loading
                 }
                 .catch { throwable ->
+                    Log.e(
+                        "listChat_ViewModel",
+                        "listChat_ViewModel Failed to getAllChat ",
+                        throwable
+                    )
                     _listChatState.value = ListChatState.Error(ListChatErrorMapper.map(throwable))
                 }
                 .collect { chats ->
@@ -77,6 +82,7 @@ class ListChatViewModel(
                 deleteChatUseCase(chatId)
                 _chatMessageEvent.emit(ListChatEvent.DeleteChatSuccess)
             } catch (e: Throwable) {
+                Log.e("listChat_ViewModel", "listChat_ViewModel Failed to deleteChat ", e)
                 _chatMessageEvent.emit(ListChatEvent.ShowError(ListChatErrorMapper.map(e)))
             }
         }
@@ -100,7 +106,6 @@ class ListChatViewModel(
     }
 
     fun searchChats(query: String) {
-
         if (query.isBlank()) {
             _listChatState.value =
                 if (allChats.isEmpty()) {
@@ -110,7 +115,6 @@ class ListChatViewModel(
                 }
             return
         }
-
         val filterChats = allChats.filter {
             it.userName.contains(query, ignoreCase = true)
         }
@@ -129,13 +133,9 @@ class ListChatViewModelFactory(
     private val sessionManager: SessionManager,
     private val deleteChatUseCase: DeleteChatUseCase,
     private val logoutUseCase: LogoutUseCase
-
-
 ) : ViewModelProvider.Factory {
-
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ListChatViewModel::class.java)) {
-
             return ListChatViewModel(
                 chatRepository = chatRepository,
                 userRepository = userRepository,

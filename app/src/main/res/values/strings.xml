@@ -275,4 +275,36 @@ Version
     <string name="message_deleted_by_other">🚫 This message was deleted.</string>
     <string name="message_deleted_by_me">🚫 You deleted this message.</string>
 
+
+    <string name="error_offline">
+    No internet connection. Please try again.
+</string>
+
+    <string name="error_not_found">
+    The requested data was not found.
+</string>
+
+    <string name="error_failed_precondition">
+    The operation cannot be completed right now. Please try again.
+</string>
+
+    <string name="error_aborted">
+    The operation was interrupted. Please try again.
+</string>
+
+    <string name="error_deadline_exceeded">
+    The connection timed out.
+</string>
+
+    <string name="error_authentication">
+    An error occurred while verifying your account.
+</string>
+
+    <string name="error_network">
+    Unable to connect to the internet. Check your connection and try again.
+</string>
+
+    <string name="error_unknown">
+    Something went wrong. Please try again.
+</string>
 </resources>
