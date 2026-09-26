@@ -86,10 +86,10 @@ The project was developed to practice building a complete Android application wi
 * Light and dark themes
 * System theme support
 
-<div align="center"><h2>Download APK</h2><p>
-Try ChatterFlow on an Android device by downloading the latest APK version.
+<<div align="center"><h2>Download APK</h2><p>
+Download and try the latest APK version of ChatterFlow.
 </p><a href="https://drive.google.com/file/d/1ik90zePMXKlf1uyM5PjgALP7ASfoOx0K/view?usp=drivesdk">
-  <strong>Download ChatterFlow APK</strong>
+  <img src="https://img.shields.io/badge/Download-APK-4F7CAC?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
 </a></div>
 
 
